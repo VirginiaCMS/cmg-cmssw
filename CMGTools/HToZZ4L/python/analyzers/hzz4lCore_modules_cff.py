@@ -163,7 +163,8 @@ lepAna = cfg.Analyzer(
     # electron isolation correction method (can be "rhoArea" or "deltaBeta")
     ele_isoCorr = "rhoArea" ,
     el_effectiveAreas = "Phys14_25ns_v1" , #(can be 'Data2012' or 'Phys14_25ns_v1')
-    ele_tightId = "MVA_ID_NonTrig_Phys14Fix_HZZ",
+    #ele_tightId = "MVA_ID_NonTrig_Phys14Fix_HZZ",
+    ele_tightId = "ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values",
     # Mini-isolation, with pT dependent cone: will fill in the miniRelIso, miniRelIsoCharged, miniRelIsoNeutral variables of the leptons (see https://indico.cern.ch/event/368826/ )
     doMiniIsolation = False, # off by default since it requires access to all PFCandidates 
     packedCandidates = 'packedPFCandidates',
@@ -215,6 +216,7 @@ jetAna = cfg.Analyzer(
     cleanJetsFromIsoTracks = False,
     doQG = False,
     cleanGenJetsFromPhoton = False,
+    do_mc_match = True,
     )
 
 
@@ -234,6 +236,8 @@ metAna = cfg.Analyzer(
     candidatesTypes='std::vector<pat::PackedCandidate>',
     dzMax = 0.1,
     collectionPostFix = "",
+    applyJetSmearing = False,
+    old74XMiniAODs = True,
     )
 
 
