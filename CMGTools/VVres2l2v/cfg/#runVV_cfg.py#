@@ -11,7 +11,7 @@ from CMGTools.RootTools.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
 #Load all common analyzers
-from CMGTools.VVResonances.analyzers.core_cff import * 
+from CMGTools..analyzers.core_cff import * 
 
 #-------- SAMPLES AND TRIGGERS -----------
 from CMGTools.VVResonances.samples.loadSamples import *
