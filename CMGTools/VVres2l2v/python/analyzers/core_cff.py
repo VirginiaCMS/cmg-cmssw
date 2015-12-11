@@ -2,14 +2,14 @@ import PhysicsTools.HeppyCore.framework.config as cfg
 from PhysicsTools.Heppy.analyzers.core.all import *
 from PhysicsTools.Heppy.analyzers.objects.all import *
 from PhysicsTools.Heppy.analyzers.gen.all import *
-from CMGTools.VVResonances.analyzers.LNuJJ import *
-from CMGTools.VVResonances.analyzers.LLJJ import *
-from CMGTools.VVResonances.analyzers.JJ import *
-from CMGTools.VVResonances.analyzers.MultiFinalState  import *
-from CMGTools.VVResonances.analyzers.PackedCandidateLoader import *
-from CMGTools.VVResonances.analyzers.LeptonicVMaker import *
-from CMGTools.VVResonances.analyzers.Skimmer import *
-from CMGTools.VVResonances.tools.leptonID  import *
+from CMGTools.VVres2l2v.analyzers.LNuJJ import *
+from CMGTools.VVres2l2v.analyzers.LLJJ import *
+from CMGTools.VVres2l2v.analyzers.JJ import *
+from CMGTools.VVres2l2v.analyzers.MultiFinalState  import *
+from CMGTools.VVres2l2v.analyzers.PackedCandidateLoader import *
+from CMGTools.VVres2l2v.analyzers.LeptonicVMaker import *
+from CMGTools.VVres2l2v.analyzers.Skimmer import *
+from CMGTools.VVres2l2v.tools.leptonID  import *
 from PhysicsTools.HeppyCore.utils.deltar import *
 import os
 

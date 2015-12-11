@@ -2,8 +2,8 @@
 
 import ROOT
 from array import array
-from CMGTools.VVResonances.plotting.TreePlotter import TreePlotter
-from CMGTools.VVResonances.plotting.MergedPlotter import MergedPlotter
+from CMGTools.VVres2l2v.plotting.TreePlotter import TreePlotter
+from CMGTools.VVres2l2v.plotting.MergedPlotter import MergedPlotter
 from math import log
 import os, sys, re, optparse,pickle,shutil,json
 

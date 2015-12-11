@@ -11,16 +11,16 @@ from CMGTools.RootTools.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy import getHeppyOption
 
 #Load all common analyzers
-from CMGTools.VVResonances.analyzers.core_cff import * 
+from CMGTools.VVres2l2v.analyzers.core_cff import * 
 
 #-------- SAMPLES AND TRIGGERS -----------
-from CMGTools.VVResonances.samples.samples_13TeV_Spring15 import * 
+from CMGTools.VVres2l2v.samples.samples_13TeV_Spring15 import * 
 
 #selectedComponents = WJetsToLNuHT+QCDPt
 selectedComponents = QCDPt
 
 #-------- Analyzer
-from CMGTools.VVResonances.analyzers.tree_cff import * 
+from CMGTools.VVres2l2v.analyzers.tree_cff import * 
 
 #-------- SEQUENCE
 

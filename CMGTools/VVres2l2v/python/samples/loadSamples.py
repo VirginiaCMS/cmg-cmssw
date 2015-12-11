@@ -15,7 +15,7 @@ background = TTs+DYJetsM50HT+WJetsToLNuHT+ZJetsToNuNuHT+GJetsHT+QCDHT+QCDPt+DiBo
 
 #background_50ns = [TTJets_50ns,TTJets_LO_50ns,WJetsToLNu_50ns]+QCDPt_50ns+DYJetsM50HT_50ns+DiBosons_50ns
 #Load signal from here 
-from CMGTools.VVResonances.samples.signal_13TeV_74X import *
+from CMGTools.VVres2l2v.samples.signal_13TeV_74X import *
 
 mcSamples = background+signalSamples
 #load triggers
@@ -52,7 +52,7 @@ dataSamples=SingleMuon+SingleElectron+JetHT+MET
 
 
 from CMGTools.TTHAnalysis.setup.Efficiencies import *
-dataDir = "$CMSSW_BASE/src/CMGTools/VVResonances/data"
+dataDir = "$CMSSW_BASE/src/CMGTools/VVres2l2v/data"
 
 
 #Load JSON

@@ -1,6 +1,6 @@
 from PhysicsTools.Heppy.analyzers.core.AutoFillTreeProducer  import * 
-from CMGTools.VVResonances.analyzers.vvTypes  import * 
-from CMGTools.VVResonances.analyzers.Skimmer  import * 
+from CMGTools.VVres2l2v.analyzers.vvTypes  import * 
+from CMGTools.VVres2l2v.analyzers.Skimmer  import * 
 import PhysicsTools.HeppyCore.framework.config as cfg
 
 vvSkimmer = cfg.Analyzer(

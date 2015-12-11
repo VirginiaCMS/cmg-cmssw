@@ -1,5 +1,5 @@
-from CMGTools.VVResonances.analyzers.EventInterpretationBase import *
-from CMGTools.VVResonances.tools.Pair import Pair
+from CMGTools.VVres2l2v.analyzers.EventInterpretationBase import *
+from CMGTools.VVres2l2v.tools.Pair import Pair
 
 class LNuJJ( EventInterpretationBase ):
     def __init__(self, cfg_ana, cfg_comp, looperName):

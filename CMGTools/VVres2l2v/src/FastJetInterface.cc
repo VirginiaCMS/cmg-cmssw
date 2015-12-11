@@ -1,4 +1,4 @@
-#include "CMGTools/VVResonances/interface/FastJetInterface.h"
+#include "CMGTools/VVres2l2v/interface/FastJetInterface.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include "fastjet/tools/Pruner.hh"
 #include "fastjet/tools/MassDropTagger.hh"

@@ -1,5 +1,5 @@
-from CMGTools.VVResonances.analyzers.EventInterpretationBase import *
-from CMGTools.VVResonances.tools.Pair import Pair
+from CMGTools.VVres2l2v.analyzers.EventInterpretationBase import *
+from CMGTools.VVres2l2v.tools.Pair import Pair
 import itertools
 
 class MultiFinalState( EventInterpretationBase ):

@@ -1,8 +1,8 @@
 import ROOT
 
-from CMGTools.VVResonances.plotting.TreePlotter import TreePlotter
-from CMGTools.VVResonances.plotting.MergedPlotter import MergedPlotter
-from CMGTools.VVResonances.plotting.StackPlotter import StackPlotter
+from CMGTools.VVres2l2v.plotting.TreePlotter import TreePlotter
+from CMGTools.VVres2l2v.plotting.MergedPlotter import MergedPlotter
+from CMGTools.VVres2l2v.plotting.StackPlotter import StackPlotter
  
 
 #create the W+jets plotters

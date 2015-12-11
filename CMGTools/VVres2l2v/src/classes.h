@@ -1,8 +1,8 @@
-#include "CMGTools/VVResonances/interface/FastJetInterface.h"
+#include "CMGTools/VVres2l2v/interface/FastJetInterface.h"
 
 namespace cmg{
 
-  struct cmg_vvresonances_dictionary {
+  struct cmg_vvres2l2v_dictionary {
     cmg::FastJetInterface fastjetInterface;
   };
 }

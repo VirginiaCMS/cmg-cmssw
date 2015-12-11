@@ -1,5 +1,5 @@
-#ifndef CMGTools_VVresonances_FastJetInterface_h
-#define CMGTools_VVresonances_FastJetInterface_h
+#ifndef CMGTools_VVres2l2v_FastJetInterface_h
+#define CMGTools_VVres2l2v_FastJetInterface_h
 
 #include <vector>
 #include <iostream>

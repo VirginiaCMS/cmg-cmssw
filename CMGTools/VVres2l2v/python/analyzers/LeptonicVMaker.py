@@ -6,7 +6,7 @@ from PhysicsTools.Heppy.analyzers.core.AutoHandle import AutoHandle
 from PhysicsTools.HeppyCore.utils.deltar import *
 import PhysicsTools.HeppyCore.framework.config as cfg
 from  itertools import combinations
-from CMGTools.VVResonances.tools.Pair import *
+from CMGTools.VVres2l2v.tools.Pair import *
 
 
 class LeptonicVMaker( Analyzer ):
