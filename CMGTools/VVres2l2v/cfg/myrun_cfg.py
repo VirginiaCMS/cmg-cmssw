@@ -11,18 +11,32 @@ from CMGTools.RootTools.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
 #Load all common analyzers
-from CMGTools.VVres-2l2v.analyzers.core_cff import * 
+from CMGTools.VVres2l2v.analyzers.core_cff import * 
 
 #-------- SAMPLES AND TRIGGERS -----------
-from CMGTools.VVResonances.samples.loadSamples import *
+#from CMGTools.VVres2l2v.samples.loadSamples import *
+from CMGTools.VVres2l2v.samples.signal_13TeV_74X import *
 
-selectedComponents = mcSamples+dataSamples
+selectedComponents = signalSamples
+#selectedComponents = mcSamples+dataSamples
 #selectedComponents = dataSamples
 
 #-------- Analyzer
-from CMGTools.VVResonances.analyzers.tree_cff import * 
+from CMGTools.VVres2l2v.analyzers.tree_cff import * 
 
 #-------- SEQUENCE
+
+coreSequence = [
+   #eventSelector,
+    jsonAna,
+    triggerAna,
+    pileUpAna,
+    genAna,
+#    pdfwAna,
+    vertexAna,
+    lepAna
+]
+
 
 sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
@@ -44,7 +58,7 @@ triggerFlagsAna.triggerBits ={
 
 
 #-------- HOW TO RUN
-test = 1
+test = 0
 if test==1:
     # test a single component, using a single thread.
     selectedComponents = [VBF_RadionToZZ_narrow_4500]
@@ -94,3 +108,4 @@ config = cfg.Config( components = selectedComponents,
                      services = [],  
                      events_class = event_class)
 
+print config
