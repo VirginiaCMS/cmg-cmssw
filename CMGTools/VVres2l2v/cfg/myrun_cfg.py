@@ -16,8 +16,21 @@ from CMGTools.VVres2l2v.analyzers.core_cff import *
 #-------- SAMPLES AND TRIGGERS -----------
 #from CMGTools.VVres2l2v.samples.loadSamples import *
 from CMGTools.VVres2l2v.samples.signal_13TeV_74X import *
-
+from CMGTools.TTHAnalysis.setup.Efficiencies import *
+#load triggers
+from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import *
+dataDir = "$CMSSW_BASE/src/CMGTools/VVres2l2v/data"
 selectedComponents = signalSamples
+for comp in signalSamples:
+    comp.isMC = True
+    comp.isData = False
+    comp.splitFactor = 20
+    comp.puFileMC=dataDir+"/pileup_MC.root"
+    comp.puFileData=dataDir+"/pileup_DATA.root"
+    comp.efficiency = eff2012
+    comp.triggers=triggers_1mu_noniso+triggers_1mu_iso+triggers_1e+triggers_1e_noniso+triggers_HT800+triggers_HT900+triggers_dijet_fat+triggers_met90_mht90+triggers_metNoMu90_mhtNoMu90+triggers_metNoMu120_mhtNoMu120
+    comp.globalTag = "Summer15_25nsV6_MC"
+
 #selectedComponents = mcSamples+dataSamples
 #selectedComponents = dataSamples
 
@@ -28,10 +41,10 @@ from CMGTools.VVres2l2v.analyzers.tree_cff import *
 
 coreSequence = [
    #eventSelector,
-    jsonAna,
-    triggerAna,
+#    jsonAna,
+#    triggerAna,
     pileUpAna,
-    genAna,
+#    genAna,
 #    pdfwAna,
     vertexAna,
     lepAna
@@ -39,22 +52,22 @@ coreSequence = [
 
 
 sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
+print sequence
+
+#from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import *
 
 
-from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import *
-
-
-triggerFlagsAna.triggerBits ={
-    "ISOMU":triggers_1mu_iso,
-    "MU":triggers_1mu_noniso,
-    "ISOELE":triggers_1e,
-    "ELE":triggers_1e_noniso,
-    "HT800":triggers_HT800,
-    "HT900":triggers_HT900,
-    "JJ":triggers_dijet_fat,  
-    "MET90":triggers_met90_mht90+triggers_metNoMu90_mhtNoMu90,
-    "MET120":triggers_metNoMu120_mhtNoMu120
-}
+# triggerFlagsAna.triggerBits ={
+#     "ISOMU":triggers_1mu_iso,
+#     "MU":triggers_1mu_noniso,
+#     "ISOELE":triggers_1e,
+#     "ELE":triggers_1e_noniso,
+#     "HT800":triggers_HT800,
+#     "HT900":triggers_HT900,
+#     "JJ":triggers_dijet_fat,  
+#     "MET90":triggers_met90_mht90+triggers_metNoMu90_mhtNoMu90,
+#     "MET120":triggers_metNoMu120_mhtNoMu120
+# }
 
 
 #-------- HOW TO RUN

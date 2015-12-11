@@ -17,7 +17,8 @@ background = TTs+DYJetsM50HT+WJetsToLNuHT+ZJetsToNuNuHT+GJetsHT+QCDHT+QCDPt+DiBo
 #Load signal from here 
 from CMGTools.VVres2l2v.samples.signal_13TeV_74X import *
 
-mcSamples = background+signalSamples
+mcSamples = background+signalSamples 
+
 #load triggers
 from CMGTools.RootTools.samples.triggers_13TeV_Spring15 import *
 
