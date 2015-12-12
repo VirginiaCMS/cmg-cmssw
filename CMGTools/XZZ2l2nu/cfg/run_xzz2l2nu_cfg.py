@@ -9,7 +9,7 @@ from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
 
 #Load all common analyzers
-from CMGTools.VVResonances.analyzers.core_cff import *
+from CMGTools.XZZ2l2nu.analyzers.core_cff import *
 
 #-------- SAMPLES AND TRIGGERS -----------
 from CMGTools.XZZ2l2nu.samples.loadSamples import *
@@ -22,7 +22,33 @@ from CMGTools.XZZ2l2nu.analyzers.tree_cff import *
 sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
 
-from CMGTools.XZZ2l2nu.samples.triggers_13TeV_Spring15 import *
+#-------- HOW TO RUN
+test = 1
+if test==1:
+    # test a single component, using a single thread.
+    selectedComponents = [RSGravToZZToZZinv_narrow_2000]
+    for c in selectedComponents:
+        c.files = c.files[:1]
+        c.splitFactor = 1
+elif test==2:
+    # test all components (1 thread per component).
+    selectedComponents = [BulkGravToZZ_narrow_2000]
+    for comp in selectedComponents:
+        comp.splitFactor = 1
+#        comp.files = comp.files[:1]
+
+## output histogram
+outputService=[]
+from PhysicsTools.HeppyCore.framework.services.tfile import TFileService
+output_service = cfg.Service(
+    TFileService,
+    'outputfile',
+    name="outputfile",
+    fname='vvTreeProducer/tree.root',
+    option='recreate'
+    )
+outputService.append(output_service)
+
 
 
 
