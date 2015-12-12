@@ -1,8 +1,34 @@
 ##########################################################
-##       CONFIGURATION FOR HZZ4L TREES                  ##
+##      configuration for XZZ2l2nu 
 ##########################################################
-import PhysicsTools.HeppyCore.framework.config as cfg
 
+import CMGTools.XZZ2l2nu.fwlite.Config as cfg
+from CMGTools.XZZ2l2nu.fwlite.Config import printComps
+from CMGTools.XZZ2l2nu.RootTools import *
+from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
+
+
+#Load all common analyzers
+from CMGTools.VVResonances.analyzers.core_cff import *
+
+#-------- SAMPLES AND TRIGGERS -----------
+from CMGTools.XZZ2l2nu.samples.loadSamples import *
+selectedComponents = mcSamples+dataSamples
+
+#-------- Analyzer
+from CMGTools.XZZ2l2nu.analyzers.tree_cff import *
+
+#-------- SEQUENCE
+sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
+
+
+from CMGTools.XZZ2l2nu.samples.triggers_13TeV_Spring15 import *
+
+
+
+################ old below
+
+import PhysicsTools.HeppyCore.framework.config as cfg
 #Load all analyzers
 from CMGTools.XZZ2l2nu.analyzers.xzz2l2nuCore_modules_cff import * 
 
