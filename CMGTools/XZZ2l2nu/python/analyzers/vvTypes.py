@@ -140,14 +140,9 @@ NuNuJJType = NTupleObjectType("NuNuJJType", baseObjectTypes=[VVType], variables 
 ])
 
 NuNuLLType = NTupleObjectType("NuNuLLType", baseObjectTypes=[VVType], variables = [
-    NTupleSubObject("met",  lambda x : x['pair'].leg1,metType),
-# Hengne: book mark
-    NTupleSubObject("jet",  lambda x : x['pair'].leg2,FatJetType),
-    NTupleSubObject("jet_softDrop",  lambda x : x['pair'].leg2.softDropJet,JetType),
-    NTupleSubObject("jet_pruned",  lambda x : x['pair'].leg2.prunedJet,JetType),
-    NTupleSubObject("jet_pruned_s1",  lambda x : x['pair'].leg2.subjets[0],JetType),
-    NTupleVariable("jet_pruned_s1_matched",   lambda x : x['pair'].leg2.subjets[0].matched, int),
-    NTupleSubObject("jet_pruned_s2",  lambda x : x['pair'].leg2.subjets[1],JetType),
-    NTupleVariable("jet_pruned_s2_matched",   lambda x : x['pair'].leg2.subjets[1].matched, int)
+    NTupleSubObject("l1",  lambda x : x['pair'].leg1,LLType),
+    NTupleSubObject("l1_l1",  lambda x : x['pair'].leg1.leg1,leptonTypeUltra),
+    NTupleSubObject("l1_l2",  lambda x : x['pair'].leg1.leg2,leptonTypeUltra),
+    NTupleSubObject("met",  lambda x : x['pair'].leg2,metType),
 ])
 
