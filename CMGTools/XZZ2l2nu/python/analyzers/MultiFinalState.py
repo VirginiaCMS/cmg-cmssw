@@ -14,7 +14,7 @@ class MultiFinalState( EventInterpretationBase ):
         JJ=[]
         JJNuNu=[]
         TopCR=[]
-
+        LLNuNu=[]
 
         leadJetConstituents=[]
 
@@ -71,6 +71,18 @@ class MultiFinalState( EventInterpretationBase ):
                 TopCR.append(selected)  
                 
                     
+        # first always do LL+MET before any other combination
+        if len(event.LL)>0 :
+            #take the Z->ll  nearest to the Z mass and the highest pt jets
+            bestZ = min(event.LL,key = lambda x: abs(x.M()-91.118))
+            VV=Pair(bestZ,event.met)
+            if self.selectPairLLNuNu(VV):
+                selected = {'pair':VV}
+                #Additional leptons
+                selected['otherLeptons'] = list(goldenLeptonsSet-set([VV.leg1.leg1,VV.leg1.leg2]))
+                #add VBF info
+                self.topology(selected)
+                LLNuNu.append(selected)
 
 
 

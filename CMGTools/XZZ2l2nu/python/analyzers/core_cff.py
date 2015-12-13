@@ -179,6 +179,7 @@ multiStateAna = cfg.Analyzer(
     selectPairLNu = (lambda x: x.deltaPhi()>1.5 and x.leg1.pt()>200 and ((abs(x.leg1.leg1.pdgId())==11 and x.leg1.leg2.pt()>80) or (abs(x.leg1.leg1.pdgId())==13 and x.leg1.leg2.pt()>40))),
     selectPairJJ = (lambda x:  x.mass()>1000 and x.leg1.tightID and x.leg2.tightID),
     selectPairJJNuNu = (lambda x: x.leg1.pt()>200 and x.deltaPhi()>1.5 ),
+    selectPairLLNuNu = (lambda x: x.leg1.pt()>200 and x.deltaPhi()>1.5 ),
     suffix = '',
     recalibrateJets = True, # True, False, 'MC', 'Data'
     recalibrationType = "AK4PFchs",

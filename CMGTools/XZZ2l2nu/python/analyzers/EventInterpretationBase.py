@@ -18,6 +18,7 @@ class EventInterpretationBase( Analyzer ):
         self.selectPairLL = self.cfg_ana.selectPairLL
         self.selectPairJJ = self.cfg_ana.selectPairJJ
         self.selectPairJJNuNu = self.cfg_ana.selectPairJJNuNu
+        self.selectPairLLNuNu = self.cfg_ana.selectPairLLNuNu
         self.isMC =cfg_comp.isMC
         if hasattr(cfg_ana,'matchDR'):
             self.matchDR = cfg_ana.matchDR
