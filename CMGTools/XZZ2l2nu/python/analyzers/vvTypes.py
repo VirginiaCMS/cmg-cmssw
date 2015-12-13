@@ -139,7 +139,7 @@ NuNuJJType = NTupleObjectType("NuNuJJType", baseObjectTypes=[VVType], variables 
     NTupleVariable("jet_pruned_s2_matched",   lambda x : x['pair'].leg2.subjets[1].matched, int)       
 ])
 
-NuNuLLType = NTupleObjectType("NuNuLLType", baseObjectTypes=[VVType], variables = [
+LLNuNuType = NTupleObjectType("LLNuNuType", baseObjectTypes=[VVType], variables = [
     NTupleSubObject("l1",  lambda x : x['pair'].leg1,LLType),
     NTupleSubObject("l1_l1",  lambda x : x['pair'].leg1.leg1,leptonTypeUltra),
     NTupleSubObject("l1_l2",  lambda x : x['pair'].leg1.leg2,leptonTypeUltra),
