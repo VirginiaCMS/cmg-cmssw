@@ -38,7 +38,8 @@ sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 test = 1
 if test==1:
     # test a single component, using a single thread.
-    selectedComponents = [DYJetsToLL_M50_HT100to200]
+    #selectedComponents = [DYJetsToLL_M50_HT100to200]
+    selectedComponents = [DYJetsToLL_M50_HT400to600,DYJetsToLL_M50_HT600toInf]
     
     #selectedComponents = dataSamples
     #selectedComponents = backgroundSamples
@@ -46,7 +47,7 @@ if test==1:
     #selectedComponents = [RSGravToZZToZZinv_narrow_2000]
     #selectedComponents = [BulkGravToZZ_narrow_2000]
     for c in selectedComponents:
-        c.splitFactor = 1
+        c.splitFactor = 4
         #c.files = c.files[:1]
 
 ## output histogram

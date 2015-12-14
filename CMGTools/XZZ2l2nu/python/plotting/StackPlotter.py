@@ -1,5 +1,5 @@
 import ROOT
-import math
+import math, os
 from TreePlotter import TreePlotter
 
 def convertToPoisson(h):
@@ -209,13 +209,11 @@ class StackPlotter(object):
 
         plot={'canvas':canvas,'stack':stack,'legend':legend,'data':data,'dataG':dataG,'latex1':pt}
 
-
-        
-
         canvas.RedrawAxis()
         canvas.Update()
 
         canvas.Print(output)
+        os.system('epstopdf '+output)
 
         return plot
 
@@ -287,7 +285,7 @@ class StackPlotter(object):
         canvas.Update()
 
         canvas.Print(output)
-
+        os.system('epstopdf '+output)
         return canvas
 
         
