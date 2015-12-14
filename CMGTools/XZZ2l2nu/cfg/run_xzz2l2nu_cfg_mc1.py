@@ -38,7 +38,11 @@ sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 test = 1
 if test==1:
     # test a single component, using a single thread.
-    selectedComponents = dataSamples
+    #selectedComponents = [DYJetsToLL_M50_HT100to200]
+    
+    #selectedComponents = dataSamples
+    selectedComponents = backgroundSamples
+    #selectedComponents = signalSamples
     #selectedComponents = [RSGravToZZToZZinv_narrow_2000]
     #selectedComponents = [BulkGravToZZ_narrow_2000]
     for c in selectedComponents:
