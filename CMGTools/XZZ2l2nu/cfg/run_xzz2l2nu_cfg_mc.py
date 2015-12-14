@@ -44,7 +44,7 @@ if test==1:
     #selectedComponents = [RSGravToZZToZZinv_narrow_2000]
     #selectedComponents = [BulkGravToZZ_narrow_2000]
     for c in selectedComponents:
-        c.splitFactor = 4
+        c.splitFactor = 1
         #c.files = c.files[:1]
 
 ## output histogram

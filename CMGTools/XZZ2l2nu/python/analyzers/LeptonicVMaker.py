@@ -254,7 +254,8 @@ class LeptonicVMaker( Analyzer ):
             used.extend([z.leg1,z.leg2])
 
         for u in used:
-            leptons.remove(u)
+            if u in leptons:
+                leptons.remove(u)
 
 
         event.LNu = self.makeLeptonsMET(leptons,event.met)
