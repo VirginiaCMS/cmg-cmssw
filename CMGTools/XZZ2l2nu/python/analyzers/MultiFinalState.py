@@ -80,13 +80,15 @@ class MultiFinalState( EventInterpretationBase ):
                 selected = {'pair':VV}
                 #Additional leptons
                 selected['otherLeptons'] = list(goldenLeptonsSet-set([VV.leg1.leg1,VV.leg1.leg2]))
+                # all jets go as satelliteJets
+                selected['satelliteJets']=self.makeSatelliteJets(cleanedPackedCandidates)
                 #add VBF info
                 self.topology(selected)
                 LLNuNu.append(selected)
 
 
 
-        finished= False
+        finished= True
         #OK lets start from LL+JJ that has the highest purity
         #take the Z->ll  nearest to the Z mass and the highest pt jets
         if len(event.LL)>0 and not finished:
@@ -173,6 +175,7 @@ class MultiFinalState( EventInterpretationBase ):
                 
 
 
+        setattr(event,'LLNuNu'+self.cfg_ana.suffix,LLNuNu)
         setattr(event,'LNuJJ'+self.cfg_ana.suffix,LNuJJ)
         setattr(event,'JJ'+self.cfg_ana.suffix,JJ)
         setattr(event,'LLJJ'+self.cfg_ana.suffix,LLJJ)

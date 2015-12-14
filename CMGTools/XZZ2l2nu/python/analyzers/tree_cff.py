@@ -6,7 +6,7 @@ import PhysicsTools.HeppyCore.framework.config as cfg
 vvSkimmer = cfg.Analyzer(
     Skimmer,
     name='vvSkimmer',
-    required = ['LNuJJ','JJ','LLJJ','JJNuNu','TopCR']
+    required = ['LLNuNu','LNuJJ','JJ','LLJJ','JJNuNu','TopCR']
 )
 
 leptonSkimmer = cfg.Analyzer(
@@ -42,7 +42,7 @@ vvTreeProducer = cfg.Analyzer(
         "TopCR" : NTupleCollection("topCR",LNuJJType ,5, help="Top control region candidate with a lepton neutrino and a fat jet"),                                                   
         "JJ" : NTupleCollection("jj",JJType ,5, help="VV candidate with two fat jets"),                                       
         "LLJJ" : NTupleCollection("lljj",LLJJType ,5, help="VV candidate with two leptons and a fat jet"),                                       
-        "JJNuNu" : NTupleCollection("nunujj",NuNuJJType ,5, help="VV candidate with  fat jet and MET")                                      
+        "JJNuNu" : NTupleCollection("nunujj",NuNuJJType ,5, help="VV candidate with  fat jet and MET"), 
         "LLNuNu" : NTupleCollection("llnunu",LLNuNuType ,5, help="VV candidate with di-lepton and MET")                                      
 #        "leadJetConstituents" : NTupleCollection("jetConstituents",     particleType, 500, help="Constituents"),                                                                                                
 
