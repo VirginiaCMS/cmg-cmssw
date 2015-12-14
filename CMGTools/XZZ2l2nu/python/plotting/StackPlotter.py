@@ -48,7 +48,7 @@ class StackPlotter(object):
         self.labels.append(label)
         self.names.append(name)
 
-    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = ""):
+    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = "", output = 'out.eps'):
         canvas = ROOT.TCanvas("canvas","")
         ROOT.gStyle.SetOptStat(0)
         ROOT.gStyle.SetOptTitle(0)
@@ -215,12 +215,13 @@ class StackPlotter(object):
         canvas.RedrawAxis()
         canvas.Update()
 
+        canvas.Print(output)
 
         return plot
 
 
 
-    def drawComp(self,var,cut,bins,mini,maxi,titlex = "", units = ""):
+    def drawComp(self,var,cut,bins,mini,maxi,titlex = "", units = "", output='out.eps'):
         canvas = ROOT.TCanvas("canvas","")
         ROOT.SetOwnership(canvas,False)
         canvas.cd()
@@ -284,6 +285,8 @@ class StackPlotter(object):
 
 
         canvas.Update()
+
+        canvas.Print(output)
 
         return canvas
 
