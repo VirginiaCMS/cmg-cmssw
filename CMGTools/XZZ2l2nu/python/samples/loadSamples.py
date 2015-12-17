@@ -65,11 +65,11 @@ SingleMuon=[SingleMuon_Run2015D_Promptv4,SingleMuon_Run2015D_05Oct]
 SingleElectron=[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
 
 for s in SingleMuon:
-    s.triggers = triggers_1mu_noniso
+    s.triggers = triggers_1mu_noniso+triggers_1mu_iso
     s.vetoTriggers = []
 for s in SingleElectron:
     s.triggers = triggers_1e_noniso+triggers_1e
-    s.vetoTriggers = triggers_1mu_noniso
+    s.vetoTriggers = triggers_1mu_noniso+triggers_1mu_iso
 
 dataSamples=SingleMuon+SingleElectron
 

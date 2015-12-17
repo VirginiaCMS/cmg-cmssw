@@ -20,7 +20,9 @@ if __name__ == '__main__':
             continue
     
         #First unpack tyhe counter and get the events
+        print directory
         if os.path.exists(directory+'/'+options.trigcounter):
+            print 'found counter'
             counterFile=open(directory+'/'+options.trigcounter)
             counter=pickle.load(counterFile)
             if len(counter)>1 and counter[1][0]=='Sum Weights':

@@ -38,11 +38,13 @@ sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 test = 1
 if test==1:
     # test a single component, using a single thread.
-    selectedComponents = dataSamples
+    #selectedComponents = dataSamples
+    selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
+    #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_2000]
     #selectedComponents = [BulkGravToZZ_narrow_2000]
     for c in selectedComponents:
-        c.splitFactor = 6
+        c.splitFactor = 10
         #c.files = c.files[:1]
 
 ## output histogram
