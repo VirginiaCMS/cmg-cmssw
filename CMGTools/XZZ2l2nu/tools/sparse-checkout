@@ -1,0 +1,12 @@
+/.gitignore/
+/CMGTools/Common/
+/CMGTools/ObjectStudies/
+/CMGTools/Production/
+/CMGTools/RootTools/
+/CMGTools/HToZZ4L/
+/CMGTools/XZZ2l2nu/
+/CMGTools/VVResonances/
+/CMGTools/TTHAnalysis/
+/PhysicsTools/Heppy/
+/PhysicsTools/HeppyCore/
+/EgammaAnalysis/ElectronTools/
