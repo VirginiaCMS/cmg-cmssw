@@ -10,6 +10,9 @@ from CMGTools.XZZ2l2nu.analyzers.PackedCandidateLoader import *
 from CMGTools.XZZ2l2nu.analyzers.MultiFinalState  import *
 from CMGTools.XZZ2l2nu.tools.leptonID  import *
 from CMGTools.XZZ2l2nu.analyzers.XZZGenAnalyzer import *
+from CMGTools.XZZ2l2nu.analyzers.XZZLeptonAnalyzer import *
+from CMGTools.XZZ2l2nu.analyzers.XZZTriggerBitFilter import *
+from CMGTools.XZZ2l2nu.analyzers.XZZVertexAnalyzer import *
 
 ###########################
 # define analyzers
@@ -27,7 +30,7 @@ jsonAna = cfg.Analyzer(
 
 # Filter using the 'triggers' and 'vetoTriggers' specified in the dataset
 triggerAna = cfg.Analyzer(
-    TriggerBitFilter, name="TriggerBitFilter",
+    XZZTriggerBitFilter, name="TriggerBitFilter",
     )
 
 # This analyzer actually does the pile-up reweighting (generic)
@@ -47,14 +50,31 @@ genAna = cfg.Analyzer(
 
 # Select a list of good primary vertices (generic)
 vertexAna = cfg.Analyzer(
-    VertexAnalyzer, name="VertexAnalyzer",
+    XZZVertexAnalyzer, name="VertexAnalyzer",
     vertexWeight = None,
     fixedWeight = 1,
     verbose = False
     )
 
 lepAna = cfg.Analyzer(
-    LeptonAnalyzer, name="leptonAnalyzer",
+    XZZLeptonAnalyzer, name="leptonAnalyzer",
+    muons='slimmedMuons',
+    electrons='slimmedElectrons',
+    packedCandidates = 'packedPFCandidates',
+    rhoMuon= 'fixedGridRhoFastjetCentralNeutral',
+    rhoElectron = 'fixedGridRhoFastjetCentralNeutral',
+    applyMiniIso = True,
+    mu_isoCorr = "rhoArea" ,
+    ele_isoCorr = "rhoArea" ,
+    mu_effectiveAreas = "Spring15_25ns_v1",
+    ele_effectiveAreas = "Spring15_25ns_v1",
+    miniIsolationPUCorr = None, # Allowed options: 'rhoArea' (EAs for 03 cone scaled by R^2), 'deltaBeta', 
+                                     # 'raw' (uncorrected), 'weights' (delta beta weights; not validated)
+                                     # Choose None to just use the individual object's PU correction
+)
+
+lepAna_old = cfg.Analyzer(
+    XZZLeptonAnalyzer, name="leptonAnalyzer",
     # input collections
     muons='slimmedMuons',
     electrons='slimmedElectrons',
@@ -102,14 +122,14 @@ lepAna = cfg.Analyzer(
     ele_effectiveAreas = "Spring15_25ns_v1" , #(can be 'Data2012' or 'Phys14_25ns_v1')
     ele_tightId = "" ,
     # Mini-isolation, with pT dependent cone: will fill in the miniRelIso, miniRelIsoCharged, miniRelIsoNeutral variables of the leptons (see https://indico.cern.ch/event/368826/ )
-    doMiniIsolation = False, # off by default since it requires access to all PFCandidates 
+    doMiniIsolation = True, # off by default since it requires access to all PFCandidates 
     packedCandidates = 'packedPFCandidates',
-    miniIsolationPUCorr = 'deltaBeta', # Allowed options: 'rhoArea' (EAs for 03 cone scaled by R^2), 'deltaBeta', 'raw' (uncorrected), 'weights' (delta beta weights; not validated)
+    miniIsolationPUCorr = 'rhoArea', # Allowed options: 'rhoArea' (EAs for 03 cone scaled by R^2), 'deltaBeta', 'raw' (uncorrected), 'weights' (delta beta weights; not validated)
     miniIsolationVetoLeptons = 'inclusive', # use 'inclusive' to veto inclusive leptons and their footprint in all isolation cones
     # minimum deltaR between a loose electron and a loose muon (on overlaps, discard the electron)
     min_dr_electron_muon = 0.0,
     # do MC matching 
-    do_mc_match = True, # note: it will in any case try it only on MC, not on data
+    do_mc_match = False, # note: it will in any case try it only on MC, not on data
     match_inclusiveLeptons = False, # match to all inclusive leptons
     )
 

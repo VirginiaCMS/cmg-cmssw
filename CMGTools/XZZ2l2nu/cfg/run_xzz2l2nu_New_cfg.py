@@ -38,7 +38,10 @@ coreSequence = [
     jsonAna,
     triggerAna,
     pileUpAna,
-    genAna ]
+    genAna,
+    vertexAna,
+    lepAna,
+]
     
 sequence = cfg.Sequence(coreSequence)
 
@@ -52,9 +55,12 @@ if test==1:
     #selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_2000]
-    selectedComponents = [BulkGravToZZ_narrow_800]
+    #selectedComponents = [BulkGravToZZ_narrow_800]
+    selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
         c.splitFactor = 1
+        c.triggers=triggers_1mu_noniso
+        #c.triggers=triggers_1e_noniso
         #c.files = c.files[:1]
 
 ## output histogram

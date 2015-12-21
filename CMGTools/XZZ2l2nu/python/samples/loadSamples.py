@@ -58,18 +58,33 @@ BulkGravToZZ_narrow_4500,
 # mc samples
 mcSamples = signalSamples + backgroundSamples
 
+# other mc samples
+otherMcSamples = [
+BulkGravToZZToZlepZhad_narrow_1000,
+BulkGravToZZToZlepZhad_narrow_1200,
+BulkGravToZZToZlepZhad_narrow_1400,
+BulkGravToZZToZlepZhad_narrow_1600,
+BulkGravToZZToZlepZhad_narrow_1800,
+BulkGravToZZToZlepZhad_narrow_2000,
+BulkGravToZZToZlepZhad_narrow_2500,
+BulkGravToZZToZlepZhad_narrow_3000,
+BulkGravToZZToZlepZhad_narrow_3500,
+BulkGravToZZToZlepZhad_narrow_4000,
+BulkGravToZZToZlepZhad_narrow_800,
 
+
+]
 
 # data
 SingleMuon=[SingleMuon_Run2015D_Promptv4,SingleMuon_Run2015D_05Oct]
 SingleElectron=[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
 
 for s in SingleMuon:
-    s.triggers = triggers_1mu_noniso+triggers_1mu_iso
+    s.triggers = triggers_1mu_noniso
     s.vetoTriggers = []
 for s in SingleElectron:
-    s.triggers = triggers_1e_noniso+triggers_1e
-    s.vetoTriggers = triggers_1mu_noniso+triggers_1mu_iso
+    s.triggers = triggers_1e_noniso
+    s.vetoTriggers = []
 
 dataSamples=SingleMuon+SingleElectron
 
@@ -83,14 +98,14 @@ jsonFile = goldenJson
 from CMGTools.XZZ2l2nu.setup.Efficiencies import *
 dataDir = "$CMSSW_BASE/src/CMGTools/XZZ2l2nu/data"
 
-for comp in mcSamples:
+for comp in mcSamples+otherMcSamples:
     comp.isMC = True
     comp.isData = False
     comp.splitFactor = 250
     comp.puFileMC=dataDir+"/pileup_MC.root"
     comp.puFileData=dataDir+"/pileup_DATA.root"
     comp.efficiency = eff2012
-    comp.triggers=triggers_1mu_noniso+triggers_1e
+    comp.triggers=triggers_1mu_noniso+triggers_1e_noniso
     comp.globalTag = "Summer15_25nsV6_MC"
 
 for comp in dataSamples:
