@@ -9,7 +9,7 @@ from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
 
 #Load all common analyzers
-from CMGTools.XZZ2l2nu.analyzers.core_cff import *
+from CMGTools.XZZ2l2nu.analyzers.coreXZZ_cff import *
 
 #-------- SAMPLES AND TRIGGERS -----------
 from CMGTools.XZZ2l2nu.samples.loadSamples import *
@@ -31,8 +31,18 @@ triggerFlagsAna.triggerBits ={
 from CMGTools.XZZ2l2nu.analyzers.tree_cff import *
 
 #-------- SEQUENCE
-sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
+#sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
+coreSequence = [
+    skimAnalyzer,
+    jsonAna,
+    triggerAna,
+    pileUpAna,
+    genAna ]
+    
+sequence = cfg.Sequence(coreSequence)
+
+ 
 
 #-------- HOW TO RUN
 test = 1

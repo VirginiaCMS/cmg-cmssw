@@ -1,6 +1,7 @@
 from PhysicsTools.Heppy.analyzers.core.Analyzer import Analyzer
 from PhysicsTools.Heppy.analyzers.core.AutoHandle import AutoHandle
-#from PhysicsTools.Heppy.physicsutils.genutils import isNotFromHadronicShower, realGenMothers, realGenDaughters
+from PhysicsTools.Heppy.physicsutils.genutils import *
+from PhysicsTools.HeppyCore.statistics.counter import Counter, Counters
 
 class XZZGenAnalyzer( Analyzer ):
     """ Only select X->ZZ->2l2nu events
@@ -17,46 +18,61 @@ class XZZGenAnalyzer( Analyzer ):
     def beginLoop(self,setup):
         super(XZZGenAnalyzer,self).beginLoop(setup)
 
+        self.counters.addCounter('XZZGenReport')
+        self.count = self.counters.counter('XZZGenReport')
+        self.count.register('XZZ2l2nu Events')
+        self.count.register('XZZ2l2j Events')
 
-    def fillGenLeptons(self, event, particle, isTau=False, sourceId=25):
-        """Get the gen level light leptons (prompt and/or from tau decays)"""
-
-        for i in xrange( particle.numberOfDaughters() ):
-            dau = GenParticle(particle.daughter(i))
-            dau.sourceId = sourceId
-            id = abs(dau.pdgId())
-            moid = 0;
-            if dau.numberOfMothers() > 0:
-                moid = abs(dau.mother().pdgId())
-            if id in [11,13]:
-                event.genLeptons.append(dau)
-            elif id in [12,14]:
-                event.genNeutrinos.append(dau)
 
     def makeMCInfo(self, event):
         verbose = getattr(self.cfg_ana, 'verbose', False)
         rawGenParticles = self.mchandles['genParticles'].product() 
-        
+
+        selectedGenParticles = []
         event.genZBosons = []
         event.genLeptons = []
         event.genNeutrinos = []
-        
-        event.genZBosons = [ p for p in event.genParticles if (p.pdgId() == 23) and p.numberOfDaughters() > 0 and abs(p.daughter(0).pdgId()) != 23 ]
+        event.genJets = []
+
+        event.genZBosons = [ p for p in rawGenParticles if (p.pdgId() == 23) and p.numberOfDaughters() > 0 and abs(p.daughter(0).pdgId()) != 23 ]
 
         for zboson in event.genZBosons:
+            selectedGenParticles.append(zboson)
             for i in xrange( zboson.numberOfDaughters() ):
-                dau = GenParticle(zboson.daughter(i))
-                dau.sourceId = zboson.pdgId()
-                if id in [11,13]:
+                dau = zboson.daughter(i)
+                dauid = dau.pdgId()
+                if abs(dauid) in [11,13]:
                     event.genLeptons.append(dau)
-                elif id in [12,14]:
+                    selectedGenParticles.append(dau)
+                elif abs(dauid) in [12,14]:
                     event.genNeutrinos.append(dau)
-     
+                    selectedGenParticles.append(dau)
+                elif abs(dauid) in range(7):
+                    event.genJets.append(dau)
+ 
+        event.genParticles = selectedGenParticles    
+        
+        if len(event.genZBosons)>=2 and len(event.genLeptons)>=2 and len(event.genNeutrinos)>=2:
+            event.genIsXZZ2l2nu = True
+        else: 
+            event.genIsXZZ2l2nu = False
+ 
+        if len(event.genZBosons)>=2 and len(event.genLeptons)>=2 and len(event.genJets)>=2:
+            event.genIsXZZ2l2j = True
+        else:
+            event.genIsXZZ2l2j = False
 
-        if self.cfg_ana.verbose:
-            print "N gen Z bosons: "+event.genZBosons.size()
-            print "N gen Leptons: "+event.genLeptons.size()
-            print "N gen neutrinos: "+event.genNeutrinoss.size()
+
+        if event.genIsXZZ2l2nu:
+            self.count.inc('XZZ2l2nu Events') 
+
+        if event.genIsXZZ2l2j:
+            self.count.inc('XZZ2l2j Events')
+
+        if self.cfg_ana.verbose and event.genIsXZZ2l2nu:
+            print "N gen Z bosons: "+str(len(event.genZBosons))
+            print "N gen Leptons: "+str(len(event.genLeptons))
+            print "N gen neutrinos: "+str(len(event.genNeutrinos))
 
     def process(self, event):
         self.readCollections( event.input )
@@ -67,6 +83,7 @@ class XZZGenAnalyzer( Analyzer ):
         # do MC level analysis
         self.makeMCInfo(event)
         return True
+
 
 import PhysicsTools.HeppyCore.framework.config as cfg
 setattr(XZZGenAnalyzer,"defaultConfig",
