@@ -33,6 +33,24 @@ class Pair(object):
 
     def mt(self):
         return self.MT
+   
+    def pt(self):
+        return self.LV.pt()
+
+    def px(self):
+        return self.LV.px()
+
+    def py(self):
+        return self.LV.py()
+
+    def pz(self):
+        return self.LV.pz()
+
+    def eta(self):
+        return self.LV.eta()
+
+    def phi(self):
+        return self.LV.phi()
 
     def deltaPhi(self):
         return abs(deltaPhi(self.leg1.phi(),self.leg2.phi()))

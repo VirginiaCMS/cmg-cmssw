@@ -7,7 +7,7 @@ from PhysicsTools.HeppyCore.utils.deltar import *
 from CMGTools.XZZ2l2nu.analyzers.Skimmer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZLeptonicVMaker import *
 from CMGTools.XZZ2l2nu.analyzers.PackedCandidateLoader import *
-from CMGTools.XZZ2l2nu.analyzers.MultiFinalState  import *
+from CMGTools.XZZ2l2nu.analyzers.XZZMultiFinalState  import *
 from CMGTools.XZZ2l2nu.tools.leptonID  import *
 from CMGTools.XZZ2l2nu.analyzers.XZZGenAnalyzer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZLeptonAnalyzer import *
@@ -98,8 +98,12 @@ metAna = cfg.Analyzer(
 leptonicVAna = cfg.Analyzer(
     XZZLeptonicVMaker,
     name='leptonicVMaker',
-    selectLNuPair=(lambda x:  isolationW(x) and leptonIDW(x) ),
-    selectLLPair=(lambda x: x.mass()>60.0 and x.mass()<120.0 and isolationZ(x) )
+    selectMuMuPair = (lambda x: x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1 
+                      and x.leg2.pt()>20.0 and abs(x.leg2.eta())<2.4 
+                      and x.mass()>60.0 and x.mass()<120.0 and x.pt()>200.0 ),
+    selectElElPair = (lambda x: x.leg1.pt()>115.0 and abs(x.leg1.eta())<2.5 
+                      and x.leg2.pt()>35.0 and abs(x.leg2.eta())<2.5 
+                      and x.mass()>60.0 and x.mass()<120.0 and x.pt()>200.0 ),
     )
 
 packedAna = cfg.Analyzer(
@@ -109,7 +113,7 @@ packedAna = cfg.Analyzer(
     )
 
 multiStateAna = cfg.Analyzer(
-    MultiFinalState,
+    XZZMultiFinalState,
     name='MultiFinalStateMaker',
     ktPowerFat = -1.0,
     rFat = 0.8,
@@ -189,7 +193,7 @@ coreSequence = [
     lepAna,
     metAna,
     leptonicVAna,
-    packedAna,
+#    packedAna,
     multiStateAna,
     eventFlagsAna,
     triggerFlagsAna
