@@ -43,6 +43,7 @@ coreSequence = [
     lepAna,
     metAna,
     leptonicVAna,
+    multiStateAna,
 ]
     
 sequence = cfg.Sequence(coreSequence)
