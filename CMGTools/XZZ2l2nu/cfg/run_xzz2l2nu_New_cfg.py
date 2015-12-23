@@ -63,9 +63,9 @@ if test==1:
     #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
         c.splitFactor = 1
-        c.triggers=triggers_1mu_noniso
+        #c.triggers=triggers_1mu_noniso
         #c.triggers=triggers_1e_noniso
-        #c.files = c.files[:1]
+        c.files = c.files[0]
 
 ## output histogram
 outputService=[]

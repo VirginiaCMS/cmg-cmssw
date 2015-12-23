@@ -98,10 +98,10 @@ metAna = cfg.Analyzer(
 leptonicVAna = cfg.Analyzer(
     XZZLeptonicVMaker,
     name='leptonicVMaker',
-    selectMuMuPair = (lambda x: x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1 
-                      and x.leg2.pt()>20.0 and abs(x.leg2.eta())<2.4 ),
-    selectElElPair = (lambda x: x.leg1.pt()>115.0 and abs(x.leg1.eta())<2.5 
-                      and x.leg2.pt()>35.0 and abs(x.leg2.eta())<2.5 ), 
+    selectMuMuPair = (lambda x: x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1 and x.leg2.pt()>20.0 and abs(x.leg2.eta())<2.4 ),
+    selectElElPair = (lambda x: x.leg1.pt()>115.0 and abs(x.leg1.eta())<2.5 and x.leg2.pt()>35.0 and abs(x.leg2.eta())<2.5 ), 
+    #selectMuMuPair = (lambda x: x.leg1.pt()>20.0 and x.leg2.pt()>20.0 ),
+    #selectElElPair = (lambda x: x.leg1.pt()>20.0 and x.leg2.pt()>20.0 ), 
     )
 
 packedAna = cfg.Analyzer(
