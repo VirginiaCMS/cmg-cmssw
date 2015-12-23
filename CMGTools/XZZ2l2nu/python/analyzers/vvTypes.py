@@ -143,6 +143,6 @@ LLNuNuType = NTupleObjectType("LLNuNuType", baseObjectTypes=[VVType], variables 
     NTupleSubObject("l1",  lambda x : x['pair'].leg1,LLType),
     NTupleSubObject("l1_l1",  lambda x : x['pair'].leg1.leg1,leptonTypeUltra),
     NTupleSubObject("l1_l2",  lambda x : x['pair'].leg1.leg2,leptonTypeUltra),
-    NTupleSubObject("met",  lambda x : x['pair'].leg2,metType),
+    NTupleSubObject("l2",  lambda x : x['pair'].leg2,metType),
 ])
 

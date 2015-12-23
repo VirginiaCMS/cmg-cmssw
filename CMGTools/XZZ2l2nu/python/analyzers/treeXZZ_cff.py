@@ -1,5 +1,5 @@
-from PhysicsTools.Heppy.analyzers.core.AutoFillTreeProducer  import * 
-from CMGTools.XZZ2l2nu.analyzers.vvTypes  import * 
+from CMGTools.XZZ2l2nu.analyzers.AutoFillTreeProducer  import * 
+from CMGTools.XZZ2l2nu.analyzers.XZZTypes  import * 
 from CMGTools.XZZ2l2nu.analyzers.Skimmer  import * 
 import PhysicsTools.HeppyCore.framework.config as cfg
 
@@ -21,14 +21,9 @@ vvTreeProducer = cfg.Analyzer(
      vectorTree = True,
      saveTLorentzVectors = False,  # can set to True to get also the TLorentzVectors, but trees will be bigger
      defaultFloatType = 'F', # use Float_t for floating point
-#     PDFWeights = PDFWeights,
      globalVariables = [
-        NTupleVariable("nAllLNu",lambda ev: len(ev.allLNu) , int),       
-        NTupleVariable("nAllLL",lambda ev: len(ev.allLL) , int),       
         NTupleVariable("nLL",lambda ev: len(ev.LL) , int),       
-        NTupleVariable("nLNu",lambda ev: len(ev.LNu) , int),       
-        NTupleVariable("rho",  lambda ev: ev.rho, float, help="kt6PFJets rho"),
-        NTupleVariable("rhoCN",  lambda ev: ev.rhoCN, float, help="fixed grid rho central neutral"),
+        NTupleVariable("nLLNuNu",lambda ev: len(ev.LLNuNu) , int),       
         NTupleVariable("nVert",  lambda ev: len(ev.goodVertices), int, help="Number of good vertices"), 
      ],
      globalObjects =  {
@@ -36,17 +31,7 @@ vvTreeProducer = cfg.Analyzer(
      },
 
      collections = {
-#            "genleps"          : NTupleCollection("gen",     genParticleWithLinksType, 10, help="Generated leptons (e/mu) from W/Z decays"),                                                                                                
-#            "inclusiveLeptons" : NTupleCollection("l",    leptonTypeExtra, 10, help="Inclusive Leptons"),                                                                                                
-        "LNuJJ" : NTupleCollection("lnujj",LNuJJType ,5, help="VV candidate with a lepton neutrino and a fat jet"),                                                   
-        "TopCR" : NTupleCollection("topCR",LNuJJType ,5, help="Top control region candidate with a lepton neutrino and a fat jet"),                                                   
-        "JJ" : NTupleCollection("jj",JJType ,5, help="VV candidate with two fat jets"),                                       
-        "LLJJ" : NTupleCollection("lljj",LLJJType ,5, help="VV candidate with two leptons and a fat jet"),                                       
-        "JJNuNu" : NTupleCollection("nunujj",NuNuJJType ,5, help="VV candidate with  fat jet and MET"), 
         "LLNuNu" : NTupleCollection("llnunu",LLNuNuType ,5, help="VV candidate with di-lepton and MET")                                      
-#        "leadJetConstituents" : NTupleCollection("jetConstituents",     particleType, 500, help="Constituents"),                                                                                                
-
-#            "genVBosons" : NTupleCollection("genV",     genParticleWithLinksType, 10, help="Generated V bosons"),                                                                                                
      }
 )
 

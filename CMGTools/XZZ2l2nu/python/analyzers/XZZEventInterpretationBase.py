@@ -5,7 +5,7 @@ from PhysicsTools.Heppy.analyzers.core.AutoHandle import AutoHandle
 from PhysicsTools.Heppy.physicsutils.JetReCalibrator import JetReCalibrator
 from PhysicsTools.HeppyCore.utils.deltar import *
 import PhysicsTools.HeppyCore.framework.config as cfg
-from CMGTools.XZZ2l2nu.tools.PyJetToolbox import *
+#from CMGTools.XZZ2l2nu.tools.PyJetToolbox import *
 from copy import copy
 
 

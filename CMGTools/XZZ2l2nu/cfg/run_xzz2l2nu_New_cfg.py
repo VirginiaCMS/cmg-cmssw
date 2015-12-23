@@ -46,8 +46,8 @@ coreSequence = [
     multiStateAna,
 ]
     
-sequence = cfg.Sequence(coreSequence)
-#sequence = cfg.Sequence(coreSequence+[vvSkimer,vvTreeProducer])
+#sequence = cfg.Sequence(coreSequence)
+sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
  
 
