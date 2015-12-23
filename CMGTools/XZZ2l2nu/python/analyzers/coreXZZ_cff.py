@@ -13,6 +13,7 @@ from CMGTools.XZZ2l2nu.analyzers.XZZGenAnalyzer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZLeptonAnalyzer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZTriggerBitFilter import *
 from CMGTools.XZZ2l2nu.analyzers.XZZVertexAnalyzer import *
+from CMGTools.XZZ2l2nu.analyzers.XZZMETAnalyzer import *
 
 ###########################
 # define analyzers
@@ -134,7 +135,7 @@ lepAna_old = cfg.Analyzer(
     )
 
 metAna = cfg.Analyzer(
-    METAnalyzer, name="metAnalyzer",
+    XZZMETAnalyzer, name="metAnalyzer",
     metCollection     = "slimmedMETs",
     noPUMetCollection = "slimmedMETs",
     copyMETsByValue = False,

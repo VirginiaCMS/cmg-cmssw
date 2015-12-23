@@ -41,6 +41,7 @@ coreSequence = [
     genAna,
     vertexAna,
     lepAna,
+    metAna,
 ]
     
 sequence = cfg.Sequence(coreSequence)
