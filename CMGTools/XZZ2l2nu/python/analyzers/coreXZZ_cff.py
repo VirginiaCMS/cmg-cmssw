@@ -5,7 +5,7 @@ from PhysicsTools.Heppy.analyzers.objects.all import *
 from PhysicsTools.Heppy.analyzers.gen.all import *
 from PhysicsTools.HeppyCore.utils.deltar import *
 from CMGTools.XZZ2l2nu.analyzers.Skimmer import *
-from CMGTools.XZZ2l2nu.analyzers.LeptonicVMaker import *
+from CMGTools.XZZ2l2nu.analyzers.XZZLeptonicVMaker import *
 from CMGTools.XZZ2l2nu.analyzers.PackedCandidateLoader import *
 from CMGTools.XZZ2l2nu.analyzers.MultiFinalState  import *
 from CMGTools.XZZ2l2nu.tools.leptonID  import *
@@ -74,66 +74,6 @@ lepAna = cfg.Analyzer(
                                      # Choose None to just use the individual object's PU correction
 )
 
-lepAna_old = cfg.Analyzer(
-    XZZLeptonAnalyzer, name="leptonAnalyzer",
-    # input collections
-    muons='slimmedMuons',
-    electrons='slimmedElectrons',
-    rhoMuon= 'fixedGridRhoFastjetAll',
-    rhoElectron = 'fixedGridRhoFastjetAll',
-    # energy scale corrections and ghost muon suppression (off by default)
-    doMuScleFitCorrections=False, # "rereco"
-    doRochesterCorrections=False,
-    doElectronScaleCorrections=False, # "embedded" in 5.18 for regression
-    doSegmentBasedMuonCleaning=False,
-    # inclusive very loose muon selection
-    inclusive_muon_id  = "",
-    inclusive_muon_pt  = 15.0,
-    inclusive_muon_eta = 2.4,
-    inclusive_muon_dxy = 0.2,
-    inclusive_muon_dz  = 0.2,
-    muon_dxydz_track = "innerTrack",
-    # loose muon selection
-    loose_muon_id     = "",
-    loose_muon_pt     = 20.0,
-    loose_muon_eta    = 2.4,
-    loose_muon_dxy    = 0.02,
-    loose_muon_dz     = 0.2,
-    loose_muon_isoCut = muonIDCommon,
-    # inclusive very loose electron selection
-    inclusive_electron_id  = "",
-    inclusive_electron_pt  = 15.0,
-    inclusive_electron_eta = 2.5,
-    inclusive_electron_dxy = 0.2,
-    inclusive_electron_dz  = 0.2,
-    inclusive_electron_lostHits = 1.0,
-    # loose electron selection
-    loose_electron_id     = "",
-    loose_electron_pt     = 35.0,
-    loose_electron_eta    = 2.5,
-    loose_electron_dxy    = 0.2,
-    loose_electron_dz     = 0.2,
-    loose_electron_isoCut = electronID,
-    loose_electron_lostHits = 1.0,
-    # muon isolation correction method (can be "rhoArea" or "deltaBeta")
-    mu_isoCorr = "deltaBeta",
-    mu_effectiveAreas = "Spring15_25ns_v1", #(can be 'Data2012' or 'Phys14_25ns_v1')
-    # electron isolation correction method (can be "rhoArea" or "deltaBeta")
-    ele_isoCorr = "rhoArea" ,
-    ele_effectiveAreas = "Spring15_25ns_v1" , #(can be 'Data2012' or 'Phys14_25ns_v1')
-    ele_tightId = "" ,
-    # Mini-isolation, with pT dependent cone: will fill in the miniRelIso, miniRelIsoCharged, miniRelIsoNeutral variables of the leptons (see https://indico.cern.ch/event/368826/ )
-    doMiniIsolation = True, # off by default since it requires access to all PFCandidates 
-    packedCandidates = 'packedPFCandidates',
-    miniIsolationPUCorr = 'rhoArea', # Allowed options: 'rhoArea' (EAs for 03 cone scaled by R^2), 'deltaBeta', 'raw' (uncorrected), 'weights' (delta beta weights; not validated)
-    miniIsolationVetoLeptons = 'inclusive', # use 'inclusive' to veto inclusive leptons and their footprint in all isolation cones
-    # minimum deltaR between a loose electron and a loose muon (on overlaps, discard the electron)
-    min_dr_electron_muon = 0.0,
-    # do MC matching 
-    do_mc_match = False, # note: it will in any case try it only on MC, not on data
-    match_inclusiveLeptons = False, # match to all inclusive leptons
-    )
-
 metAna = cfg.Analyzer(
     XZZMETAnalyzer, name="metAnalyzer",
     metCollection     = "slimmedMETs",
@@ -156,7 +96,7 @@ metAna = cfg.Analyzer(
 
 
 leptonicVAna = cfg.Analyzer(
-    LeptonicVMaker,
+    XZZLeptonicVMaker,
     name='leptonicVMaker',
     selectLNuPair=(lambda x:  isolationW(x) and leptonIDW(x) ),
     selectLLPair=(lambda x: x.mass()>60.0 and x.mass()<120.0 and isolationZ(x) )
