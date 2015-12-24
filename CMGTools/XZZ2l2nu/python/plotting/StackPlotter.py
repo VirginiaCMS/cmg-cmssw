@@ -199,7 +199,7 @@ class StackPlotter(object):
 	pt.SetTextSize(0.03)
 	text = pt.AddText(0.01,0.3,"CMS Preliminary")
 #	text = pt.AddText(0.25,0.3,"#sqrt{s} = 7 TeV, L = 5.1 fb^{-1}  #sqrt{s} = 8 TeV, L = 19.7 fb^{-1}")
-	text = pt.AddText(0.25,0.3,"#sqrt{s} = 13 TeV")
+	text = pt.AddText(0.55,0.3,"#sqrt{s} = 13 TeV, L = 2.1 fb^{-1}")
 	pt.Draw()   
         
 
