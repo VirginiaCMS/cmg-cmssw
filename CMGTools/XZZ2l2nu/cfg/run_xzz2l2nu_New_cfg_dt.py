@@ -44,6 +44,7 @@ coreSequence = [
     metAna,
     leptonicVAna,
     multiStateAna,
+    triggerFlagsAna,
 ]
     
 #sequence = cfg.Sequence(coreSequence)

@@ -84,7 +84,7 @@ for s in SingleMuon:
     s.vetoTriggers = []
 for s in SingleElectron:
     s.triggers = triggers_1e_noniso
-    s.vetoTriggers = []
+    s.vetoTriggers = triggers_1mu_noniso
 
 dataSamples=SingleMuon+SingleElectron
 
