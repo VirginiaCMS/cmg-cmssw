@@ -16,4 +16,5 @@ brilcalc lumi -h
 
 brilcalc beam -h
 
-
+# calculate int lumi for 2015D
+brilcalc lumi --normtag /afs/cern.ch/user/c/cmsbril/public/normtag_json/OfflineNormtagV1.json -i Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2_2015D.txt 
