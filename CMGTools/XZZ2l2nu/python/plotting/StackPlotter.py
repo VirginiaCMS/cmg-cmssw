@@ -48,7 +48,7 @@ class StackPlotter(object):
         self.labels.append(label)
         self.names.append(name)
 
-    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = "", output = 'out.eps'):
+    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = "", output = 'out.eps', separateSignal=False):
         canvas = ROOT.TCanvas("canvas","")
         ROOT.gStyle.SetOptStat(0)
         ROOT.gStyle.SetOptTitle(0)
@@ -76,14 +76,18 @@ class StackPlotter(object):
         background=0
         backgroundErr=0
         
-        data=None
+        signals = []       
+        signalHs = [] 
+        signalLabels = []
+
+        dataH=None
         dataG=None
         error=ROOT.Double(0.0)
 
         cutL="("+self.defaultCut+")*("+cut+")"
 
         for (plotter,typeP,label,name) in zip(self.plotters,self.types,self.labels,self.names):
-            if typeP == "signal" or typeP =="background":
+            if (typeP =="background") or (not separateSignal and typeP == "signal"):
                 hist = plotter.drawTH1(var,cutL,lumi,bins,mini,maxi,titlex,units)
                 hist.SetName(name)
                 stack.Add(hist)
@@ -95,12 +99,21 @@ class StackPlotter(object):
                 if typeP == "background" :
                     background+=hist.IntegralAndError(1,hist.GetNbinsX(),error)
                     backgroundErr+=error*error
-       
+
+            if separateSignal and typeP == "signal":
+                hist = plotter.drawTH1(var,cutL,lumi,bins,mini,maxi,titlex,units)
+                hist.SetName(name)
+                hists.append(hist)
+                signalHs.append(hist)
+                signals.append(hist.Integral())
+                signalLabels.append(label)
+                print label+" : %f\n" % hist.Integral()
+
             if typeP =="data":
                 hist = plotter.drawTH1(var,cutL,"1",bins,mini,maxi,titlex,units)
                 hist.SetName(hist.GetName()+label)
                 hists.append(hist)
-                data=hist
+                dataH=hist
                 dataG=convertToPoisson(hist)
                 dataG.SetLineWidth(1)
                 print label+" : %f\n" % hist.Integral()
@@ -108,9 +121,8 @@ class StackPlotter(object):
        
         #if data not found plot stack only
 
-        if data != None:                  
-            datamax = ROOT.Math.chisquared_quantile_c((1-0.6827)/2.,2*(data.GetMaximum()+1))/2.
-
+        if dataH != None:                  
+            datamax = ROOT.Math.chisquared_quantile_c((1-0.6827)/2.,2*(dataH.GetMaximum()+1))/2.
         else: 
             datamax = stack.GetMaximum()
 
@@ -121,7 +133,7 @@ class StackPlotter(object):
 
         frame.GetXaxis().SetLabelFont(42)
         frame.GetXaxis().SetLabelOffset(0.007)
-        frame.GetXaxis().SetLabelSize(0.045)
+        frame.GetXaxis().SetLabelSize(0.03)
         frame.GetXaxis().SetTitleSize(0.05)
         frame.GetXaxis().SetTitleOffset(1.15)
         frame.GetXaxis().SetTitleFont(42)
@@ -147,8 +159,11 @@ class StackPlotter(object):
 
         frame.Draw()
         stack.Draw("A,HIST,SAME")
-        if data !=None:
+        if dataH !=None:
             dataG.Draw("Psame")              
+        if separateSignal and len(signalHs)>0:
+            for sigH in signalHs:
+                sigH.Draw("HIST,SAME")
 
         legend = ROOT.TLegend(0.62,0.6,0.92,0.90,"","brNDC")
 	legend.SetBorderSize(0)
@@ -183,11 +198,15 @@ class StackPlotter(object):
 
 
         print"---------------------------"
-        print "Signal = %f" %(signal)
+        if not separateSignal:
+            print "Signal = %f" %(signal)
+        elif len(signalHs)>0:
+            for (sig,sigLab) in reversed(zip(signals,signalLabels)):
+                print "Signal "+sigLab+" = "+str(sig)
         print "Bkg    = %f" %(background)
-        if data is not None:
-            print "Observed = %f"%(data.Integral())
-            integral = data.IntegralAndError(1,data.GetNbinsX(),error)
+        if dataH is not None:
+            print "Observed = %f"%(dataH.Integral())
+            integral = dataH.IntegralAndError(1,dataH.GetNbinsX(),error)
             if background>0.0:
                 print "Data/Bkg= {ratio} +- {err}".format(ratio=integral/background,err=math.sqrt(error*error/(background*background)+integral*integral*backgroundErr/(background*background*background*background)))
 
@@ -207,7 +226,10 @@ class StackPlotter(object):
 #        latex1.SetTextSize(0.037)
 #        latex1.Draw()
 
-        plot={'canvas':canvas,'stack':stack,'legend':legend,'data':data,'dataG':dataG,'latex1':pt}
+        plot={'canvas':canvas,'stack':stack,'legend':legend,'data':dataH,'dataG':dataG,'latex1':pt}
+        if separateSignal and len(signalHs)>0:
+            for (sigH,sigLab) in reversed(zip(signalHs,signalLabels)):
+                plot['signal_'+sigLab] = sigH
 
         canvas.RedrawAxis()
         canvas.Update()
