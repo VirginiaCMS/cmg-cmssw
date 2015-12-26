@@ -10,6 +10,8 @@ class XZZGenAnalyzer( Analyzer ):
 
     def __init__(self, cfg_ana, cfg_comp, looperName ):
         super(XZZGenAnalyzer,self).__init__(cfg_ana,cfg_comp,looperName)
+
+        self.filter = getattr(self.cfg_ana, 'filter', "None")
  
     def declareHandles(self):
         super(XZZGenAnalyzer, self).declareHandles()
@@ -22,6 +24,7 @@ class XZZGenAnalyzer( Analyzer ):
         self.count = self.counters.counter('XZZGenReport')
         self.count.register('XZZ2l2nu Events')
         self.count.register('XZZ2l2j Events')
+        self.count.register('pass events')
 
 
     def makeMCInfo(self, event):
@@ -31,6 +34,8 @@ class XZZGenAnalyzer( Analyzer ):
         selectedGenParticles = []
         event.genZBosons = []
         event.genLeptons = []
+        event.genElectrons = []
+        event.genMuons = []
         event.genNeutrinos = []
         event.genJets = []
 
@@ -44,7 +49,9 @@ class XZZGenAnalyzer( Analyzer ):
                 if abs(dauid) in [11,13]:
                     event.genLeptons.append(dau)
                     selectedGenParticles.append(dau)
-                elif abs(dauid) in [12,14]:
+                    if abs(dauid)==11: event.genElectrons.append(dau)
+                    if abs(dauid)==13: event.genMuons.append(dau)
+                elif abs(dauid) in [12,14,16]:
                     event.genNeutrinos.append(dau)
                     selectedGenParticles.append(dau)
                 elif abs(dauid) in range(7):
@@ -82,7 +89,26 @@ class XZZGenAnalyzer( Analyzer ):
             return True
         # do MC level analysis
         self.makeMCInfo(event)
-        return True
+        
+        # no gen filter
+        if self.filter == "None":
+            return True
+        # filter
+        if self.filter=="ZZ2mu":
+            if len(event.genMuons)>=2: 
+                self.count.inc('pass events')
+                return True
+        elif self.filter=="ZZ2el":
+            if len(event.genElectrons)>=2:
+                self.count.inc('pass events')
+                return True
+        elif self.filter=="ZZ2l2nu":
+            if event.genIsXZZ2l2nu:
+                self.count.inc('pass events')
+                return True
+
+        # false if use filter but not pass any
+        return False
 
 
 import PhysicsTools.HeppyCore.framework.config as cfg

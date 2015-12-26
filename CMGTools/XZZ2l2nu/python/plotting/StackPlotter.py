@@ -13,7 +13,7 @@ def convertToPoisson(h):
         y=h.GetBinContent(i)
         yLow=0
         yHigh=0
-        if y !=0.0:
+        if y >0.1:
             yLow = y-ROOT.Math.chisquared_quantile_c(1-q,2*y)/2.
             yHigh = ROOT.Math.chisquared_quantile_c(q,2*(y+1))/2.-y
             graph.SetPoint(i-1,x,y)
