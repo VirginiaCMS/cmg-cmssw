@@ -47,6 +47,7 @@ genAna = cfg.Analyzer(
     XZZGenAnalyzer, name="XZZGenAnalyzer",
     # Print out debug information
     verbose = False,
+    filter = "None",
     )
 
 # Select a list of good primary vertices (generic)
