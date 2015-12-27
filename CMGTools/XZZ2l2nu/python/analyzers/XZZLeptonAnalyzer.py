@@ -80,7 +80,7 @@ class XZZLeptonAnalyzer( Analyzer ):
         event.otherLeptons = []
         
 
-        #self.IsolationComputer.setPackedCandidates(self.handles['packedCandidates'].product())
+        self.IsolationComputer.setPackedCandidates(self.handles['packedCandidates'].product())
         #for lep in self.handles['muons'].product():
         #    self.IsolationComputer.addVetos(lep)
         #for lep in self.handles['electrons'].product():
@@ -237,9 +237,9 @@ class XZZLeptonAnalyzer( Analyzer ):
         what = "mu" if (abs(lep.pdgId()) == 13) else ("eleB" if lep.isEB() else "eleE")
 
         if what=="mu":
-            lep.miniAbsIsoCharged = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.0);
+            lep.miniAbsIsoChargedHad = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.0);
         else:
-            lep.miniAbsIsoCharged = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, {"mu":0.0001,"eleB":0,"eleE":0.015}[what], 0.0, self.IsolationComputer.selfVetoNone);
+            lep.miniAbsIsoChargedHad = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, {"mu":0.0001,"eleB":0,"eleE":0.015}[what], 0.0, self.IsolationComputer.selfVetoNone);
 
         if self.miniIsolationPUCorr == None: puCorr = self.cfg_ana.mu_isoCorr if what=="mu" else self.cfg_ana.ele_isoCorr
         else: puCorr = self.miniIsolationPUCorr
@@ -251,23 +251,17 @@ class XZZLeptonAnalyzer( Analyzer ):
                 lep.miniAbsIsoNeutral = ( self.IsolationComputer.photonAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.08 if what=="eleE" else 0.0, 0.0, self.IsolationComputer.selfVetoNone) + self.IsolationComputer.neutralHadAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.0, 0.0, self.IsolationComputer.selfVetoNone) )
         else:
             if what == "mu":
-                lep.miniAbsIsoNeutral = self.IsolationComputer.neutralAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5);
+                #lep.miniAbsIsoNeutral = self.IsolationComputer.neutralAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5);
+                lep.miniAbsIsoPho  = self.IsolationComputer.photonAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5)
+                lep.miniAbsIsoNeutralHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5)
             else:
                 lep.miniAbsIsoPho  = self.IsolationComputer.photonAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.08 if what == "eleE" else 0.0, 0.0, self.IsolationComputer.selfVetoNone)
-                lep.miniAbsIsoNHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.0, 0.0, self.IsolationComputer.selfVetoNone)
-                lep.miniAbsIsoNeutral = lep.miniAbsIsoPho + lep.miniAbsIsoNHad
-            if puCorr == "rhoArea":
-                lep.miniAbsIsoNeutral = max(0.0, lep.miniAbsIsoNeutral - lep.rho * lep.EffectiveArea03 * (lep.miniIsoR/0.3)**2)
-            elif puCorr == "deltaBeta":
-                if what == "mu":
-                    lep.miniAbsIsoPU = self.IsolationComputer.puAbsIso(lep.physObj, lep.miniIsoR, 0.01, 0.5);
-                else:
-                    lep.miniAbsIsoPU = self.IsolationComputer.puAbsIso(lep.physObj, lep.miniIsoR, 0.015 if what == "eleE" else 0.0, 0.0,self.IsolationComputer.selfVetoNone);
-                lep.miniAbsIsoNeutral = max(0.0, lep.miniAbsIsoNeutral - 0.5*lep.miniAbsIsoPU)
-            elif puCorr != 'raw':
-                raise RuntimeError, "Unsupported miniIsolationCorr name '" + puCorr +  "'! For now only 'rhoArea', 'deltaBeta', 'raw', 'weights' are supported (and 'weights' is not tested)."
+                lep.miniAbsIsoNeutralHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.0, 0.0, self.IsolationComputer.selfVetoNone)
+            # only calculate rhoArea
+            lep.miniAbsIsoNeutral = lep.miniAbsIsoPho + lep.miniAbsIsoNeutralHad
+            lep.miniAbsIsoNeutral = max(0.0, lep.miniAbsIsoNeutral - lep.rho * lep.EffectiveArea03 * (lep.miniIsoR/0.3)**2)
 
-        lep.miniAbsIso = lep.miniAbsIsoCharged + lep.miniAbsIsoNeutral
+        lep.miniAbsIso = lep.miniAbsIsoChargedHad + lep.miniAbsIsoNeutral
         lep.miniRelIso = lep.miniAbsIso/lep.pt()
 
     def process(self, event):
