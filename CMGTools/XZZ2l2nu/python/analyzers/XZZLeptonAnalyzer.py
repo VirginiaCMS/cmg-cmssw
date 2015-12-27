@@ -54,16 +54,20 @@ class XZZLeptonAnalyzer( Analyzer ):
         count.register('pass events')
         count.register('pass 2mu events')
         count.register('pass 2el events')
-        count.register('pass 2mu id events')
-        count.register('pass 2el id events')
-        count.register('pass 2mu id+iso events')
-        count.register('pass 2el id+iso events')
-        count.register('pass 2mu id+iso+acc events')
-        count.register('pass 2el id+iso+acc events')
-        count.register('pass 1mu id events')
-        count.register('pass 1el id events')
-        count.register('pass 1mu id+iso events')
-        count.register('pass 1el id+iso events')
+        count.register('pass 2mu kin events')
+        count.register('pass 2el kin events')
+        count.register('pass 2mu kin+id events')
+        count.register('pass 2el kin+id events')
+        count.register('pass 2mu kin+id+iso events')
+        count.register('pass 2el kin+id+iso events')
+        count.register('pass 2mu kin+id+iso+acc events')
+        count.register('pass 2el kin+id+iso+acc events')
+        count.register('pass 1mu kin events')
+        count.register('pass 1el kin events')
+        count.register('pass 1mu kin+id events')
+        count.register('pass 1el kin+id events')
+        count.register('pass 1mu kin+id+iso events')
+        count.register('pass 1el kin+id+iso events')
 
 
     #------------------
@@ -76,17 +80,21 @@ class XZZLeptonAnalyzer( Analyzer ):
         event.otherLeptons = []
         
 
-        self.IsolationComputer.setPackedCandidates(self.handles['packedCandidates'].product())
-        for lep in self.handles['muons'].product():
-            self.IsolationComputer.addVetos(lep)
-        for lep in self.handles['electrons'].product():
-            self.IsolationComputer.addVetos(lep)
+        #self.IsolationComputer.setPackedCandidates(self.handles['packedCandidates'].product())
+        #for lep in self.handles['muons'].product():
+        #    self.IsolationComputer.addVetos(lep)
+        #for lep in self.handles['electrons'].product():
+        #    self.IsolationComputer.addVetos(lep)
 
         #muons
         allmuons = self.makeAllMuons(event)
 
         #electrons        
         allelectrons = self.makeAllElectrons(event)
+       
+        #pass kin selection
+        self.n_mu_passKin = len(allmuons)
+        self.n_el_passKin = len(allelectrons)
 
         # lepton ID
         for mu in allmuons:
@@ -120,6 +128,8 @@ class XZZLeptonAnalyzer( Analyzer ):
         """
         allmuons = map( Muon, self.handles['muons'].product() )
 
+        # pre-selection with kinematic cut
+        allmuons = [mu for mu in allmuons if mu.pt()>20.0 and abs(mu.eta())<2.4]
        
         # Attach EAs for isolation:
         for mu in allmuons:
@@ -166,6 +176,9 @@ class XZZLeptonAnalyzer( Analyzer ):
         """
         allelectrons = map( Electron, self.handles['electrons'].product() )
 
+        # pre-selection with kinematic cut
+        allelectrons = [el for el in allelectrons if el.pt()>35.0 and abs(el.eta())<2.5]
+
         # fill EA for rho-corrected isolation
         for ele in allelectrons:
           ele.rho = float(self.handles['rhoEle'].product()[0])
@@ -197,11 +210,10 @@ class XZZLeptonAnalyzer( Analyzer ):
                          and abs(ele.deltaEtaSeedClusterTrackAtVtx())<0.004 \
                          and abs(ele.deltaPhiSuperClusterTrackAtVtx())<0.06 \
                          and (ele.hadronicOverEm()<1.0/ele.superCluster().energy()+0.05) \
-                         and (ele.e2x5Max()>ele.e5x5()*0.94 or ele.e1x5()>ele.e5x5()*0.83) \
+                         and (ele.full5x5_e2x5Max()>ele.full5x5_e5x5()*0.94 or ele.full5x5_e1x5()>ele.full5x5_e5x5()*0.83) \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
                          and abs(ele.dxy())<0.02 \
-                         and ele.et()>35.0 \
-                         and ele.pt()>35.0 and abs(ele.eta())<2.5
+                         and ele.et()>35.0 
 
             ele.heepV60_noISO_EE = abs(ele.superCluster().eta())>1.566 and abs(ele.superCluster().eta())<2.5 \
                          and ele.ecalDriven() \
@@ -211,8 +223,7 @@ class XZZLeptonAnalyzer( Analyzer ):
                          and ele.full5x5_sigmaIetaIeta()<0.03 \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
                          and abs(ele.dxy())<0.05 \
-                         and ele.et()>35.0 \
-                         and ele.pt()>35.0 and abs(ele.eta())<2.5
+                         and ele.et()>35.0 
 
             ele.heepV60_noISO = ele.heepV60_noISO_EB or ele.heepV60_noISO_EE
 
@@ -268,6 +279,8 @@ class XZZLeptonAnalyzer( Analyzer ):
         self.counters.counter('events').inc('all events')
 
         # counters
+        self.n_el_passKin=0
+        self.n_mu_passKin=0
         self.n_el_passId=0
         self.n_mu_passId=0
         self.n_el_passIso=0
@@ -282,32 +295,42 @@ class XZZLeptonAnalyzer( Analyzer ):
             self.counters.counter('events').inc('pass 2mu events')
             if (event.selectedMuons[0].pt()>50.0 and abs(event.selectedMuons[0].eta())<2.1 and
                 event.selectedMuons[1].pt()>20.0 and abs(event.selectedMuons[1].eta())<2.4):
-                self.counters.counter('events').inc('pass 2mu id+iso+acc events')
+                self.counters.counter('events').inc('pass 2mu kin+id+iso+acc events')
         if len(event.selectedElectrons)>=2 :
             self.counters.counter('events').inc('pass 2el events')
             if (event.selectedElectrons[0].pt()>115.0 and abs(event.selectedElectrons[0].eta())<2.5 and
                 event.selectedElectrons[1].pt()>35.0 and abs(event.selectedElectrons[1].eta())<2.5):
-                self.counters.counter('events').inc('pass 2el id+iso+acc events')
+                self.counters.counter('events').inc('pass 2el kin+id+iso+acc events')
 
         if self.n_mu_passId>=1:
-            self.counters.counter('events').inc('pass 1mu id events')
+            self.counters.counter('events').inc('pass 1mu kin+id events')
         if self.n_el_passId>=1:
-            self.counters.counter('events').inc('pass 1el id events')
+            self.counters.counter('events').inc('pass 1el kin+id events')
 
         if self.n_mu_passIso>=1:
-            self.counters.counter('events').inc('pass 1mu id+iso events')
+            self.counters.counter('events').inc('pass 1mu kin+id+iso events')
         if self.n_el_passIso>=1:
-            self.counters.counter('events').inc('pass 1el id+iso events')
+            self.counters.counter('events').inc('pass 1el kin+id+iso events')
+
+        if self.n_mu_passKin>=1:
+            self.counters.counter('events').inc('pass 1mu kin events')
+        if self.n_el_passKin>=1:
+            self.counters.counter('events').inc('pass 1el kin events')
+
+        if self.n_mu_passKin>=2:
+            self.counters.counter('events').inc('pass 2mu kin events')
+        if self.n_el_passKin>=2:
+            self.counters.counter('events').inc('pass 2el kin events')
 
         if self.n_mu_passId>=2:
-            self.counters.counter('events').inc('pass 2mu id events')
+            self.counters.counter('events').inc('pass 2mu kin+id events')
         if self.n_el_passId>=2:
-            self.counters.counter('events').inc('pass 2el id events')
+            self.counters.counter('events').inc('pass 2el kin+id events')
 
         if self.n_mu_passIso>=2:
-            self.counters.counter('events').inc('pass 2mu id+iso events')
+            self.counters.counter('events').inc('pass 2mu kin+id+iso events')
         if self.n_el_passIso>=2:
-            self.counters.counter('events').inc('pass 2el id+iso events')
+            self.counters.counter('events').inc('pass 2el kin+id+iso events')
 
         return True
 
