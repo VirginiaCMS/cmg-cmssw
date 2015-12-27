@@ -59,7 +59,7 @@ RSGravToZZToZZinv_narrow_4500,
 mcSamples = signalSamples + backgroundSamples
 
 # other mc samples
-otherMcSamples = [
+bulkJetsSamples = [
 BulkGravToZZToZlepZhad_narrow_1000,
 BulkGravToZZToZlepZhad_narrow_1200,
 BulkGravToZZToZlepZhad_narrow_1400,
@@ -74,6 +74,8 @@ BulkGravToZZToZlepZhad_narrow_800,
 
 
 ]
+
+otherMcSamples = bulkJetsSamples
 
 # data
 SingleMuon=[SingleMuon_Run2015D_Promptv4,SingleMuon_Run2015D_05Oct]

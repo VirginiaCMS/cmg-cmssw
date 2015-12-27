@@ -7,8 +7,8 @@ from CMGTools.XZZ2l2nu.fwlite.Config import printComps
 from CMGTools.XZZ2l2nu.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
-#syncChannel="Muon"
-syncChannel="Electron"
+syncChannel="Muon"
+#syncChannel="Electron"
 
 #Load all common analyzers
 from CMGTools.XZZ2l2nu.analyzers.coreXZZ_cff import *
@@ -73,7 +73,8 @@ if test==1:
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
     #selectedComponents = [BulkGravToZZ_narrow_800]
-    selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
+    #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
+    selectedComponents = bulkJetsSamples
     for c in selectedComponents:
         c.splitFactor = 1
         #c.triggers=triggers_1mu_noniso
