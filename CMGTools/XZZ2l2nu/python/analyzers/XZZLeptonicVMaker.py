@@ -14,6 +14,7 @@ class XZZLeptonicVMaker( Analyzer ):
         super(XZZLeptonicVMaker,self).__init__(cfg_ana, cfg_comp, looperName)
         self.selectMuMuPair = cfg_ana.selectMuMuPair
         self.selectElElPair = cfg_ana.selectElElPair
+        self.selectVBoson = cfg_ana.selectVBoson
 
     def declareHandles(self):
         super(XZZLeptonicVMaker, self).declareHandles()
@@ -33,6 +34,9 @@ class XZZLeptonicVMaker( Analyzer ):
                     if self.selectMuMuPair(pair):
                         output.append(pair)
                         self.n_pass_mu += 1
+        # select V boson
+        output = [ for pair in output if self.selectVBoson(pair) ]
+ 
         return output 
 
 
