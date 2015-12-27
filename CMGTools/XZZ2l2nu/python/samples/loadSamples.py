@@ -60,6 +60,7 @@ mcSamples = signalSamples + backgroundSamples
 
 # other mc samples
 bulkJetsSamples = [
+BulkGravToZZToZlepZhad_narrow_800,
 BulkGravToZZToZlepZhad_narrow_1000,
 BulkGravToZZToZlepZhad_narrow_1200,
 BulkGravToZZToZlepZhad_narrow_1400,
@@ -70,7 +71,7 @@ BulkGravToZZToZlepZhad_narrow_2500,
 BulkGravToZZToZlepZhad_narrow_3000,
 BulkGravToZZToZlepZhad_narrow_3500,
 BulkGravToZZToZlepZhad_narrow_4000,
-BulkGravToZZToZlepZhad_narrow_800,
+BulkGravToZZToZlepZhad_narrow_4500,
 
 
 ]
