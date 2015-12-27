@@ -234,15 +234,11 @@ class XZZLeptonAnalyzer( Analyzer ):
 
     def attachMiniIsolation(self, lep):
         lep.miniIsoR = 10.0/min(max(lep.pt(), 50.0),200.0)
-        # -- version with increasing cone at low pT, gives slightly better performance for tight cuts and low pt leptons
-        # lep.miniIsoR = 10.0/min(max(lep.pt(), 50),200) if lep.pt() > 20 else 4.0/min(max(lep.pt(),10),20) 
         what = "mu" if (abs(lep.pdgId()) == 13) else ("eleB" if lep.isEB() else "eleE")
 
         if what=="mu":
-            #lep.miniAbsIsoCharged = self.IsolationComputer.chargedAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.5);
-            lep.miniAbsIsoCharged = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.5);
+            lep.miniAbsIsoCharged = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.0);
         else:
-            #lep.miniAbsIsoCharged = self.IsolationComputer.chargedAbsIso(lep.physObj, lep.miniIsoR, {"mu":0.0001,"eleB":0,"eleE":0.015}[what], 0.0, self.IsolationComputer.selfVetoNone);
             lep.miniAbsIsoCharged = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, {"mu":0.0001,"eleB":0,"eleE":0.015}[what], 0.0, self.IsolationComputer.selfVetoNone);
 
         if self.miniIsolationPUCorr == None: puCorr = self.cfg_ana.mu_isoCorr if what=="mu" else self.cfg_ana.ele_isoCorr
