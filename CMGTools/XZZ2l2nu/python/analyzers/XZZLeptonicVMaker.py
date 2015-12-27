@@ -48,12 +48,13 @@ class XZZLeptonicVMaker( Analyzer ):
         count.register('pass el events')
         count.register('pass mu events')
 
-        self.n_pass_el = 0
-        self.n_pass_mu = 0
         
     def process(self, event):
         self.readCollections( event.input )
         self.counters.counter('events').inc('all events')
+
+        self.n_pass_el = 0
+        self.n_pass_mu = 0
 
         event.LL=self.makeDiLeptons(event.selectedLeptons)
  
