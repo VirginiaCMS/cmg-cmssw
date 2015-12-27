@@ -24,7 +24,6 @@ class XZZLeptonicVMaker( Analyzer ):
         output=[]
         for l1,l2 in combinations(leptonList,2):
             if  (l1.pdgId() == -l2.pdgId()):
-                
                 pair = Pair(l1,l2,23)
                 if abs(l1.pdgId())==11: 
                     if self.selectElElPair(pair): 
@@ -58,9 +57,9 @@ class XZZLeptonicVMaker( Analyzer ):
 
         event.LL=self.makeDiLeptons(event.selectedLeptons)
  
-        if self.n_pass_el>0: 
+        if self.n_pass_el>0.1: 
             self.counters.counter('events').inc('pass el events')       
-        if self.n_pass_mu>0: 
+        if self.n_pass_mu>0.1: 
             self.counters.counter('events').inc('pass mu events')       
  
         if len(event.LL)<=0:

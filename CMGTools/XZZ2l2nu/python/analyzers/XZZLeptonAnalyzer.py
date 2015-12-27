@@ -154,7 +154,7 @@ class XZZLeptonAnalyzer( Analyzer ):
 
         # define muon id
         for mu in allmuons:
-            mu.highPtID = mu.physObj.isHighPtMuon(mu.associatedVertex) and mu.pt()>20.0 and abs(mu.eta())<2.4
+            mu.highPtID = mu.physObj.isHighPtMuon(mu.associatedVertex)
             mu.trackerHighPtID = mu.physObj.isTrackerMuon() \
                          and mu.physObj.track().isNonnull() \
                          and mu.physObj.innerTrack().isNonnull() \
@@ -163,8 +163,7 @@ class XZZLeptonAnalyzer( Analyzer ):
                          and abs(mu.physObj.muonBestTrack().dxy(mu.associatedVertex.position()))<0.2 \
                          and abs(mu.physObj.muonBestTrack().dz(mu.associatedVertex.position()))<0.5 \
                          and mu.physObj.innerTrack().hitPattern().numberOfValidPixelHits()>0 \
-                         and mu.physObj.track().hitPattern().trackerLayersWithMeasurement()>5 \
-                         and mu.pt()>20.0 and abs(mu.eta())<2.4
+                         and mu.physObj.track().hitPattern().trackerLayersWithMeasurement()>5 
 
 
         return allmuons
@@ -279,19 +278,6 @@ class XZZLeptonAnalyzer( Analyzer ):
         #call the leptons functions
         self.makeLeptons(event)
 
-        if len(event.selectedMuons)>=2 or len(event.selectedElectrons)>=2 :
-            self.counters.counter('events').inc('pass events')
-        if len(event.selectedMuons)>=2:
-            self.counters.counter('events').inc('pass 2mu events')
-            if (event.selectedMuons[0].pt()>50.0 and abs(event.selectedMuons[0].eta())<2.1 and
-                event.selectedMuons[1].pt()>20.0 and abs(event.selectedMuons[1].eta())<2.4):
-                self.counters.counter('events').inc('pass 2mu kin+id+iso+acc events')
-        if len(event.selectedElectrons)>=2 :
-            self.counters.counter('events').inc('pass 2el events')
-            if (event.selectedElectrons[0].pt()>115.0 and abs(event.selectedElectrons[0].eta())<2.5 and
-                event.selectedElectrons[1].pt()>35.0 and abs(event.selectedElectrons[1].eta())<2.5):
-                self.counters.counter('events').inc('pass 2el kin+id+iso+acc events')
-
         if self.n_mu_passId>=1:
             self.counters.counter('events').inc('pass 1mu kin+id events')
         if self.n_el_passId>=1:
@@ -322,7 +308,22 @@ class XZZLeptonAnalyzer( Analyzer ):
         if self.n_el_passIso>=2:
             self.counters.counter('events').inc('pass 2el kin+id+iso events')
 
-        return True
+        if len(event.selectedMuons)>=2:
+            self.counters.counter('events').inc('pass 2mu events')
+            if (event.selectedMuons[0].pt()>50.0 and abs(event.selectedMuons[0].eta())<2.1 and
+                event.selectedMuons[1].pt()>20.0 and abs(event.selectedMuons[1].eta())<2.4):
+                self.counters.counter('events').inc('pass 2mu kin+id+iso+acc events')
+        if len(event.selectedElectrons)>=2 :
+            self.counters.counter('events').inc('pass 2el events')
+            if (event.selectedElectrons[0].pt()>115.0 and abs(event.selectedElectrons[0].eta())<2.5 and
+                event.selectedElectrons[1].pt()>35.0 and abs(event.selectedElectrons[1].eta())<2.5):
+                self.counters.counter('events').inc('pass 2el kin+id+iso+acc events')
+
+        if len(event.selectedMuons)>=2 or len(event.selectedElectrons)>=2 :
+            self.counters.counter('events').inc('pass events')
+            return True
+        else: 
+            return False
 
 #A default config
 setattr(XZZLeptonAnalyzer,"defaultConfig",cfg.Analyzer(
