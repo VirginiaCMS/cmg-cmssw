@@ -35,7 +35,7 @@ class XZZLeptonicVMaker( Analyzer ):
                         output.append(pair)
                         self.n_pass_mu += 1
         # select V boson
-        output = [ for pair in output if self.selectVBoson(pair) ]
+        output = [pair for pair in output if self.selectVBoson(pair) ]
  
         return output 
 
