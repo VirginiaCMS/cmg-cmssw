@@ -20,21 +20,6 @@ class XZZLeptonicVMaker( Analyzer ):
         super(XZZLeptonicVMaker, self).declareHandles()
 
 
-    def makeDiLeptons(self,leptonList):
-        output=[]
-        for l1,l2 in combinations(leptonList,2):
-            if  (l1.pdgId() == -l2.pdgId()):
-                pair = Pair(l1,l2,23)
-                if abs(l1.pdgId())==11: 
-                    if self.selectElElPair(pair): 
-                        output.append(pair)
-                        self.n_pass_el += 1
-                elif abs(l1.pdgId())==13:                     
-                    if self.selectMuMuPair(pair):
-                        output.append(pair)
-                        self.n_pass_mu += 1
-        # select V boson
-        output = [pair for pair in output if self.selectVBoson(pair) ]
  
         return output 
 
@@ -56,8 +41,26 @@ class XZZLeptonicVMaker( Analyzer ):
         self.n_pass_el = 0
         self.n_pass_mu = 0
 
-        event.LL=self.makeDiLeptons(event.selectedLeptons)
- 
+        LL = []
+
+        # electron pair
+        for l1,l2 in combinations(event.selectedElectrons,2):
+            if  (l1.pdgId() == -l2.pdgId()):
+                pair = Pair(l1,l2,23)
+                if self.selectElElPair(pair):
+                    LL.append(pair)
+                    self.n_pass_el += 1
+        # muon pair
+        for l1,l2 in combinations(event.selectedMuons,2):
+            if  (l1.pdgId() == -l2.pdgId()):
+                pair = Pair(l1,l2,23)
+                if self.selectMuMuPair(pair):
+                    LL.append(pair)
+                    self.n_pass_mu += 1
+
+        # select V boson
+        event.LL = [pair for pair in LL if self.selectVBoson(pair) ]
+
         if self.n_pass_el>0.1: 
             self.counters.counter('events').inc('pass el events')       
         if self.n_pass_mu>0.1: 
