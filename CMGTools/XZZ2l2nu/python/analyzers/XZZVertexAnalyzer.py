@@ -149,11 +149,11 @@ class XZZVertexAnalyzer( Analyzer ):
             return False
         if vertex.chi2()==0:
             return False
-        if vertex.ndof()<4:
+        if vertex.ndof()<4.0:
             return False
-        if abs(vertex.z())>24:
+        if abs(vertex.z())>24.0:
             return False
-        if vertex.position().Rho()>2:
+        if abs(vertex.position().Rho())>2.0:
             return False
      
         return True

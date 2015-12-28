@@ -53,6 +53,7 @@ genAna = cfg.Analyzer(
 # Select a list of good primary vertices (generic)
 vertexAna = cfg.Analyzer(
     XZZVertexAnalyzer, name="VertexAnalyzer",
+    allVertices = "offlineSlimmedPrimaryVertices",
     vertexWeight = None,
     fixedWeight = 1,
     verbose = False

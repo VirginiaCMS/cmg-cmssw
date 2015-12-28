@@ -39,7 +39,7 @@ if syncChannel == "Electron":
     for comp in mcSamples+otherMcSamples:
         comp.triggers=triggers_1e_noniso 
 
-leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID and x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1) or (x.leg2.highPtID and x.leg2.pt()>50.0 and abs(x.leg2.eta())<2.1) )
+leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID or x.leg2.highPtID) and ((x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1) or (x.leg2.pt()>50.0 and abs(x.leg2.eta())<2.1)))
 leptonicVAna.selectElElPair = (lambda x: x.leg1.pt()>115.0 or x.leg2.pt()>115.0 )
 leptonicVAna.selectVBoson = (lambda x: x.pt()>200.0 and x.mass()>70.0 and x.mass()<110.0)
 

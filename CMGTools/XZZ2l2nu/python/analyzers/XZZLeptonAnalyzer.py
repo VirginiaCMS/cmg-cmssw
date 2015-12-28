@@ -206,25 +206,25 @@ class XZZLeptonAnalyzer( Analyzer ):
 
         # define electron ID
         for ele in allelectrons:
-            ele.heepV60_noISO_EB = abs(ele.superCluster().eta())<1.4442 \
-                         and ele.ecalDriven() \
+            ele.heepV60_noISO_EB = ele.pt()>35.0 \
+                         and abs(ele.superCluster().eta())<1.4442 \
                          and abs(ele.deltaEtaSeedClusterTrackAtVtx())<0.004 \
                          and abs(ele.deltaPhiSuperClusterTrackAtVtx())<0.06 \
-                         and (ele.hadronicOverEm()<1.0/ele.superCluster().energy()+0.05) \
-                         and (ele.full5x5_e2x5Max()>ele.full5x5_e5x5()*0.94 or ele.full5x5_e1x5()>ele.full5x5_e5x5()*0.83) \
+                         and (ele.full5x5_e5x5()>0 and ( ele.full5x5_e2x5Max()>ele.full5x5_e5x5()*0.94 or ele.full5x5_e1x5()>ele.full5x5_e5x5()*0.83)) \
+                         and (ele.hadronicOverEm()*ele.superCluster().energy()<1.0+0.05*ele.superCluster().energy()) \
+                         and abs(ele.gsfTrack().dxy(ele.associatedVertex.position()))<0.02 \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
-                         and abs(ele.dxy())<0.02 \
-                         and ele.et()>35.0 
+                         and ele.ecalDriven() 
 
-            ele.heepV60_noISO_EE = abs(ele.superCluster().eta())>1.566 and abs(ele.superCluster().eta())<2.5 \
-                         and ele.ecalDriven() \
+            ele.heepV60_noISO_EE = ele.pt()>35.0 \
+                         and abs(ele.superCluster().eta())>1.566 and abs(ele.superCluster().eta())<2.5 \
                          and abs(ele.deltaEtaSeedClusterTrackAtVtx())<0.006 \
                          and abs(ele.deltaPhiSuperClusterTrackAtVtx())<0.06 \
-                         and (ele.hadronicOverEm()<5.0/ele.superCluster().energy()+0.05) \
                          and ele.full5x5_sigmaIetaIeta()<0.03 \
+                         and (ele.hadronicOverEm()*ele.superCluster().energy()<5.0+0.05*ele.superCluster().energy()) \
+                         and abs(ele.gsfTrack().dxy(ele.associatedVertex.position()))<0.05 \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
-                         and abs(ele.dxy())<0.05 \
-                         and ele.et()>35.0 
+                         and ele.ecalDriven() 
 
             ele.heepV60_noISO = ele.heepV60_noISO_EB or ele.heepV60_noISO_EE
 
