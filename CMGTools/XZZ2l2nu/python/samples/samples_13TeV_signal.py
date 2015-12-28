@@ -32,6 +32,7 @@ BulkGravToZZ_narrow_3500 = kreator.makeMCComponent("BulkGravToZZ_narrow_M-3500",
 BulkGravToZZ_narrow_4000 = kreator.makeMCComponent("BulkGravToZZ_narrow_M-4000","/BulkGravToZZ_narrow_M-4000_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZ_narrow_4500 = kreator.makeMCComponent("BulkGravToZZ_narrow_M-4500","/BulkGravToZZ_narrow_M-4500_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 
+BulkGravToZZToZlepZhad_narrow_600=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_600", "/BulkGravToZZToZlepZhad_narrow_M-600_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v2/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZToZlepZhad_narrow_800=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_800", "/BulkGravToZZToZlepZhad_narrow_M-800_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZToZlepZhad_narrow_1000=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_1000", "/BulkGravToZZToZlepZhad_narrow_M-1000_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZToZlepZhad_narrow_1200=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_1200", "/BulkGravToZZToZlepZhad_narrow_M-1200_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
@@ -43,4 +44,4 @@ BulkGravToZZToZlepZhad_narrow_2500=kreator.makeMCComponent("BulkGravToZZToZlepZh
 BulkGravToZZToZlepZhad_narrow_3000=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_3000", "/BulkGravToZZToZlepZhad_narrow_M-3000_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZToZlepZhad_narrow_3500=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_3500", "/BulkGravToZZToZlepZhad_narrow_M-3500_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
 BulkGravToZZToZlepZhad_narrow_4000=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_4000", "/BulkGravToZZToZlepZhad_narrow_M-4000_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
-BulkGravToZZToZlepZhad_narrow_4500=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_4500", "/BulkGravToZZToZlepZhad_narrow_M-4500_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/MINIAODSIM", "CMS", ".*root",1.0)
+BulkGravToZZToZlepZhad_narrow_4500=kreator.makeMCComponent("BulkGravToZZToZlepZhad_narrow_4500", "/BulkGravToZZToZlepZhad_narrow_M-4500_13TeV-madgraph/RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v2/MINIAODSIM", "CMS", ".*root",1.0)
