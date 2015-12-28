@@ -140,7 +140,8 @@ class XZZLeptonAnalyzer( Analyzer ):
               elif aeta < 1.300: mu.EffectiveArea03 = 0.0619
               elif aeta < 2.000: mu.EffectiveArea03 = 0.0465
               elif aeta < 2.200: mu.EffectiveArea03 = 0.0433
-              else:              mu.EffectiveArea03 = 0.0577
+              elif aeta < 2.500: mu.EffectiveArea03 = 0.0577
+              else:              mu.EffectiveArea03 = 0.0000
           else: 
               raise RuntimeError,  "Unsupported value for mu_effectiveAreas, can use Spring15_25ns_v1"
  
@@ -190,7 +191,8 @@ class XZZLeptonAnalyzer( Analyzer ):
               elif SCEta < 2.200: ele.EffectiveArea03 = 0.1534
               elif SCEta < 2.300: ele.EffectiveArea03 = 0.1903
               elif SCEta < 2.400: ele.EffectiveArea03 = 0.2243
-              else:               ele.EffectiveArea03 = 0.2687
+              elif SCEta < 5.000: ele.EffectiveArea03 = 0.2687
+              else:               ele.EffectiveArea03 = 0.0000
           else: 
               raise RuntimeError,  "Unsupported value for ele_effectiveAreas: can only use Data2012 (rho: ?), Phys14_v1 and Spring15_v1 (rho: fixedGridRhoFastjetAll)"
 
@@ -236,7 +238,7 @@ class XZZLeptonAnalyzer( Analyzer ):
         what = "mu" if (abs(lep.pdgId()) == 13) else ("eleB" if lep.isEB() else "eleE")
 
         if what=="mu":
-            lep.miniAbsIsoChargedHad = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.0);
+            lep.miniAbsIsoChargedHad = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, 0.0001, 0.0, self.IsolationComputer.selfVetoNone);
         else:
             lep.miniAbsIsoChargedHad = self.IsolationComputer.chargedHadAbsIso(lep.physObj, lep.miniIsoR, {"mu":0.0001,"eleB":0,"eleE":0.015}[what], 0.0, self.IsolationComputer.selfVetoNone);
 
@@ -245,14 +247,14 @@ class XZZLeptonAnalyzer( Analyzer ):
 
         if puCorr == "weights":
             if what == "mu":
-                lep.miniAbsIsoNeutral = self.IsolationComputer.neutralAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.01, 0.5);
+                lep.miniAbsIsoNeutral = self.IsolationComputer.neutralAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.01, 0.5,self.IsolationComputer.selfVetoNone);
             else:
                 lep.miniAbsIsoNeutral = ( self.IsolationComputer.photonAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.08 if what=="eleE" else 0.0, 0.0, self.IsolationComputer.selfVetoNone) + self.IsolationComputer.neutralHadAbsIsoWeighted(lep.physObj, lep.miniIsoR, 0.0, 0.0, self.IsolationComputer.selfVetoNone) )
         else:
             if what == "mu":
                 #lep.miniAbsIsoNeutral = self.IsolationComputer.neutralAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5);
-                lep.miniAbsIsoPho  = self.IsolationComputer.photonAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5)
-                lep.miniAbsIsoNeutralHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5)
+                lep.miniAbsIsoPho  = self.IsolationComputer.photonAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5,self.IsolationComputer.selfVetoNone)
+                lep.miniAbsIsoNeutralHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.01, 0.5,self.IsolationComputer.selfVetoNone)
             else:
                 lep.miniAbsIsoPho  = self.IsolationComputer.photonAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.08 if what == "eleE" else 0.0, 0.0, self.IsolationComputer.selfVetoNone)
                 lep.miniAbsIsoNeutralHad = self.IsolationComputer.neutralHadAbsIsoRaw(lep.physObj, lep.miniIsoR, 0.0, 0.0, self.IsolationComputer.selfVetoNone)
@@ -260,8 +262,12 @@ class XZZLeptonAnalyzer( Analyzer ):
             lep.miniAbsIsoNeutral = lep.miniAbsIsoPho + lep.miniAbsIsoNeutralHad
             lep.miniAbsIsoNeutral = max(0.0, lep.miniAbsIsoNeutral - lep.rho * lep.EffectiveArea03 * (lep.miniIsoR/0.3)**2)
 
-        lep.miniAbsIso = lep.miniAbsIsoChargedHad + lep.miniAbsIsoNeutral
-        lep.miniRelIso = lep.miniAbsIso/lep.pt()
+        if lep.pt()<5.0:
+            lep.miniAbsIso = 9999.0
+            lep.miniRelIso = 9999.0
+        else:
+            lep.miniAbsIso = lep.miniAbsIsoChargedHad + lep.miniAbsIsoNeutral
+            lep.miniRelIso = lep.miniAbsIso/lep.pt()
 
     def process(self, event):
         self.readCollections( event.input )
@@ -333,8 +339,8 @@ setattr(XZZLeptonAnalyzer,"defaultConfig",cfg.Analyzer(
     muons='slimmedMuons',
     electrons='slimmedElectrons',
     packedCandidates = 'packedPFCandidates',
-    rhoMuon= 'fixedGridRhoFastjetAll',
-    rhoElectron = 'fixedGridRhoFastjetAll',
+    rhoMuon= 'fixedGridRhoFastjetCentralNeutral',
+    rhoElectron = 'fixedGridRhoFastjetCentralNeutral',
     applyMiniIso = True,
     mu_isoCorr = "rhoArea" ,
     ele_isoCorr = "rhoArea" ,
