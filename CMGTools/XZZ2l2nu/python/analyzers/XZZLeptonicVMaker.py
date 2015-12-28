@@ -20,10 +20,6 @@ class XZZLeptonicVMaker( Analyzer ):
         super(XZZLeptonicVMaker, self).declareHandles()
 
 
- 
-        return output 
-
-
     def beginLoop(self, setup):
         super(XZZLeptonicVMaker,self).beginLoop(setup)
         self.counters.addCounter('events')
