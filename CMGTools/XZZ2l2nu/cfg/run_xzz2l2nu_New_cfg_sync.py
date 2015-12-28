@@ -7,8 +7,8 @@ from CMGTools.XZZ2l2nu.fwlite.Config import printComps
 from CMGTools.XZZ2l2nu.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
-syncChannel="Muon"
-#syncChannel="Electron"
+#syncChannel="Muon"
+syncChannel="Electron"
 
 #Load all common analyzers
 from CMGTools.XZZ2l2nu.analyzers.coreXZZ_cff import *
