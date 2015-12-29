@@ -147,16 +147,20 @@ class XZZVertexAnalyzer( Analyzer ):
     def testGoodVertex(self,vertex):
         #if vertex.isFake():
         #    return False
-        if vertex.chi2()==0:
+        #if vertex.chi2()==0:
+        #    return False
+        #if vertex.ndof()<4.0:
+        #    return False
+        #if abs(vertex.z())>24.0:
+        #    return False
+        #if abs(vertex.position().Rho())>2.0:
+        #    return False
+        if (vertex.chi2()!=0 and vertex.ndof()>=4.0 
+           and abs(vertex.z())<=24.0 
+           and abs(vertex.position().Rho())<=2.0) :
+            return True
+        else:
             return False
-        if vertex.ndof()<4.0:
-            return False
-        if abs(vertex.z())>24.0:
-            return False
-        if abs(vertex.position().Rho())>2.0:
-            return False
-     
-        return True
 
     def mindist(self, vertices):
         mindist = 999999
