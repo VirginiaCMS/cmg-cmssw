@@ -22,16 +22,18 @@ vvTreeProducer = cfg.Analyzer(
      saveTLorentzVectors = False,  # can set to True to get also the TLorentzVectors, but trees will be bigger
      defaultFloatType = 'F', # use Float_t for floating point
      globalVariables = [
-        NTupleVariable("nLL",lambda ev: len(ev.LL) , int),       
-        NTupleVariable("nLLNuNu",lambda ev: len(ev.LLNuNu) , int),       
-        NTupleVariable("nVert",  lambda ev: len(ev.goodVertices), int, help="Number of good vertices"), 
+         NTupleVariable("nLL",lambda ev: len(ev.LL) , int),       
+         NTupleVariable("nLLNuNu",lambda ev: len(ev.LLNuNu) , int),       
+         NTupleVariable("nVert",  lambda ev: len(ev.goodVertices), int, help="Number of good vertices"), 
      ],
      globalObjects =  {
-            "met" : NTupleObject("met", metType, help="PF E_{T}^{miss}, after type 1 corrections"),
+         "met" : NTupleObject("met", metType, help="PF E_{T}^{miss}, after type 1 corrections"),
      },
 
      collections = {
-        "LLNuNu" : NTupleCollection("llnunu",LLNuNuType ,5, help="VV candidate with di-lepton and MET")                                      
+         "LLNuNu"  : NTupleCollection("llnunu",LLNuNuType ,5, help="VV candidate with di-lepton and MET"),
+         "genLeptons" : NTupleCollection("genLep",     genParticleWithLinksType, 10, help="Generated leptons (e/mu) from W/Z decays"),
+         "genZBosons" : NTupleCollection("genZ",     genParticleWithLinksType, 10, help="Generated V bosons"),
      }
 )
 

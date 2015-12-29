@@ -14,6 +14,7 @@ from CMGTools.XZZ2l2nu.analyzers.XZZLeptonAnalyzer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZTriggerBitFilter import *
 from CMGTools.XZZ2l2nu.analyzers.XZZVertexAnalyzer import *
 from CMGTools.XZZ2l2nu.analyzers.XZZMETAnalyzer import *
+from CMGTools.XZZ2l2nu.analyzers.XZZDumpEvtList import *
 
 ###########################
 # define analyzers
@@ -153,6 +154,9 @@ triggerFlagsAna = cfg.Analyzer(
     }
     )
 
+dumpEvents = cfg.Analyzer(
+    XZZDumpEvtList, name="XZZDumpEvtList",
+    )
 
 
 ################

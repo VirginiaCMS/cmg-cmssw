@@ -43,6 +43,7 @@ leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID or x.leg2.highPtID) an
 leptonicVAna.selectElElPair = (lambda x: x.leg1.pt()>115.0 or x.leg2.pt()>115.0 )
 leptonicVAna.selectVBoson = (lambda x: x.pt()>200.0 and x.mass()>70.0 and x.mass()<110.0)
 
+
 #-------- Analyzer
 from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
 
@@ -57,10 +58,13 @@ coreSequence = [
     vertexAna,
     lepAna,
     leptonicVAna,
+    dumpEvents,
+    metAna,
+    multiStateAna, 
 ]
     
-sequence = cfg.Sequence(coreSequence)
-#sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
+#sequence = cfg.Sequence(coreSequence)
+sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
  
 
@@ -73,8 +77,8 @@ if test==1:
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
     #selectedComponents = [BulkGravToZZ_narrow_800]
-    #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
-    selectedComponents = bulkJetsSamples
+    selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
+    #selectedComponents = bulkJetsSamples
     for c in selectedComponents:
         c.splitFactor = 1
         #c.triggers=triggers_1mu_noniso
