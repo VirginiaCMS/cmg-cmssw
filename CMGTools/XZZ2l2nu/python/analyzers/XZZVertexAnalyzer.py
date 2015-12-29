@@ -145,8 +145,8 @@ class XZZVertexAnalyzer( Analyzer ):
 
 
     def testGoodVertex(self,vertex):
-        if vertex.isFake():
-            return False
+        #if vertex.isFake():
+        #    return False
         if vertex.chi2()==0:
             return False
         if vertex.ndof()<4.0:
