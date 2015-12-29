@@ -43,9 +43,20 @@ leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID or x.leg2.highPtID) an
 leptonicVAna.selectElElPair = (lambda x: x.leg1.pt()>115.0 or x.leg2.pt()>115.0 )
 leptonicVAna.selectVBoson = (lambda x: x.pt()>200.0 and x.mass()>70.0 and x.mass()<110.0)
 
-
 #-------- Analyzer
 from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
+
+vvTreeProducer.globalVariables = [
+         NTupleVariable("nVert",  lambda ev: len(ev.goodVertices), int, help="Number of good vertices"),
+         ]
+vvTreeProducer.globalObjects =  { }
+vvTreeProducer.collections = {
+         "LL"  : NTupleCollection("Zll",LLType,5, help="Z to ll"),
+         "selectedLeptons" : NTupleCollection("lep",leptonType,10, help="selected leptons"),
+         "genLeptons" : NTupleCollection("genLep", genParticleType, 10, help="Generated leptons (e/mu) from W/Z decays"),
+         "genZBosons" : NTupleCollection("genZ", genParticleType, 10, help="Generated V bosons"),
+     }
+
 
 
 #-------- SEQUENCE
@@ -59,12 +70,10 @@ coreSequence = [
     lepAna,
     leptonicVAna,
     dumpEvents,
-    metAna,
-    multiStateAna, 
 ]
     
 #sequence = cfg.Sequence(coreSequence)
-sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
+sequence = cfg.Sequence(coreSequence+[vvTreeProducer])
 
  
 
@@ -77,8 +86,8 @@ if test==1:
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
     #selectedComponents = [BulkGravToZZ_narrow_800]
-    selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
-    #selectedComponents = bulkJetsSamples
+    #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
+    selectedComponents = bulkJetsSamples
     for c in selectedComponents:
         c.splitFactor = 1
         #c.triggers=triggers_1mu_noniso
