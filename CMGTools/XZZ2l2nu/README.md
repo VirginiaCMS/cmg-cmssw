@@ -3,28 +3,23 @@ X->ZZ->2l2nu Analysis Package
 
   Analysis package heavy resonnance search using X->ZZ->2l2nu final states.
  
-  Initial authors:
-
-     IHEP/Beijing : Mengqing Wu, Mingshui Chen
-
-     UVa          : Yanchu Wang, Hengne Li
 
 Instructions for package development.
 ---------------------------------
 
 1. Setup Environment
 
-```
-release=CMSSW_7_4_12_patch4
-tag=""
-export SCRAM_ARCH=slc6_amd64_gcc491
-alias cmsenv='eval `scramv1 runtime -sh`'
-alias cmsrel='scramv1 project CMSSW'
+  ```
+  release=CMSSW_7_4_12_patch4
+  tag=""
+  export SCRAM_ARCH=slc6_amd64_gcc491
+  alias cmsenv='eval `scramv1 runtime -sh`'
+  alias cmsrel='scramv1 project CMSSW'
 
-scram project -n ${release}${tag} $release
-cd ${release}${tag}/src
-cmsenv
-```
+  scram project -n ${release}${tag} $release
+  cd ${release}${tag}/src
+  cmsenv
+  ```
 
 2. Create empty repository (with the cmssw trick to keep the repository small)
 
@@ -59,7 +54,7 @@ cmsenv
   ```
   Don't for get to replace "<your own github name>" with your own github user name.
 
-
+ 
 7. Push the package CMGTools/XZZ2l2nu in the branch xzz2l2nu_v1 into your own github repository
 
   ```
