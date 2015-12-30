@@ -3,8 +3,11 @@ X->ZZ->2l2nu Analysis Package
 
   Analysis package heavy resonnance search using X->ZZ->2l2nu final states.
  
+  Initial authors:
+     IHEP/Beijing : Mengqing Wu, Mingshui Chen
+     UVa          : Yanchu Wang, Hengne Li
 
-Instructions to run the package.
+Instructions for package development.
 ---------------------------------
 
 ### Setup Environment
@@ -67,9 +70,10 @@ git push origin xzz2l2nu_v1
 git checkout -b xzz2l2nu_v1_mydev
 ```
 
-### You can frequently push your development branch to your own repository
+### Please frequently commit your changes and push your development branch to your own repository
 
 ```
+git commit -m 'describe your change here.' -a
 git push origin xzz2l2nu_v1_mydev
 ```
 
@@ -90,35 +94,15 @@ git push origin xzz2l2nu_v1_mydev
 ```
 
 * Make a PR from branch xzz2l2nu_v1_mydev in your own respository to branch xzz2l2nu_v1 in MMHY respository to let others cross-check your changes. Once looks good, merge it.
+
   The PR can be created on the webpage of your own repository:
 
       https://github.com/<your own github name>/cmg-cmssw/tree/xzz2l2nu_v1_mydev
 
+  E.g. A PR from hengne's xzz2l2nu_v1_mydev branch to MMHY's xzz2l2nu_v1 will look like this in the following link:
+
+      https://github.com/MMHY/cmg-cmssw/compare/xzz2l2nu_v1...hengne:xzz2l2nu_v1_mydev  
+
+  *Let's make it a rule here:* Please always let other collabrators to view and sign your PR before merging it, even if you have the permission to do it all by yourself. 
   
-# add the central CMG repository, and fetch it
-# limit the fetch to the 7_4_12-related branches, to avoid loading all the past history of CMGTools
-git remote add cmg-central https://github.com/CERN-PH-CMG/cmg-cmssw.git  -f -t CMGTools-from-CMSSW_7_4_12 -t heppy_74X
-git fetch cmg-central
-
-
-# checkout the CMGTools branch of the release, and push it to your CMG repository
-git checkout -b CMGTools-from-CMSSW_7_4_12 cmg-central/CMGTools-from-CMSSW_7_4_12
-git push -u origin CMGTools-from-CMSSW_7_4_12
-
-# create also the heppy branch
-#git branch heppy_74X cmg-central/heppy_74X
-
-# get this package
-git remote add hengne https://github.com/hengne/cmg-cmssw.git
-git fetch hengne
-
-
-
-# combine
-#git clone -b 74x-root6 https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
-#git clone https://github.com/cms-analysis/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement
-#git clone https://github.com/gpetruc/HiggsAnalysis-ZZMatrixElement.git ZZMatrixElement
-
-#compile
-scram b -j 8
 
