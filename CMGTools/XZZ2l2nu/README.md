@@ -4,7 +4,9 @@ X->ZZ->2l2nu Analysis Package
   Analysis package heavy resonnance search using X->ZZ->2l2nu final states.
  
   Initial authors:
+
      IHEP/Beijing : Mengqing Wu, Mingshui Chen
+
      UVa          : Yanchu Wang, Hengne Li
 
 Instructions for package development.
@@ -55,7 +57,7 @@ cmsenv
   ```
   git remote add origin https://github.com/<your own github name>/cmg-cmssw.git
   ```
-  Don't for get to replace ```<your own github name>``` with your own github user name.
+  Don't for get to replace "<your own github name>" with your own github user name.
 
 
 7. Push the package CMGTools/XZZ2l2nu in the branch xzz2l2nu_v1 into your own github repository
