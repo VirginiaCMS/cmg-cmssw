@@ -48,7 +48,8 @@ class XZZLeptonicVMaker( Analyzer ):
                     self.n_pass_el += 1
         # muon pair
         for l1,l2 in combinations(event.selectedMuons,2):
-            if  (l1.pdgId() == -l2.pdgId() and l1.charge() == -l2.charge()):
+            #if  (l1.pdgId() == -l2.pdgId() and l1.charge() == -l2.charge()):
+            if  (l1.charge() == -l2.charge()):
                 pair = Pair(l1,l2,23)
                 if self.selectMuMuPair(pair):
                     LL.append(pair)
