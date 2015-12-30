@@ -212,7 +212,7 @@ class XZZLeptonAnalyzer( Analyzer ):
                          and abs(ele.deltaPhiSuperClusterTrackAtVtx())<0.06 \
                          and (ele.full5x5_e5x5()>0 and ( ele.full5x5_e2x5Max()>ele.full5x5_e5x5()*0.94 or ele.full5x5_e1x5()>ele.full5x5_e5x5()*0.83)) \
                          and (ele.hadronicOverEm()*ele.superCluster().energy()<1.0+0.05*ele.superCluster().energy()) \
-                         and abs(ele.gsfTrack().dxy(event.vertices[0].position()))<0.02 \
+                         and abs(ele.gsfTrack().dxy(ele.associatedVertex.position()))<0.02 \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
                          and ele.ecalDriven() 
 
@@ -222,7 +222,7 @@ class XZZLeptonAnalyzer( Analyzer ):
                          and abs(ele.deltaPhiSuperClusterTrackAtVtx())<0.06 \
                          and ele.full5x5_sigmaIetaIeta()<0.03 \
                          and (ele.hadronicOverEm()*ele.superCluster().energy()<5.0+0.05*ele.superCluster().energy()) \
-                         and abs(ele.gsfTrack().dxy(event.vertices[0].position()))<0.05 \
+                         and abs(ele.gsfTrack().dxy(ele.associatedVertex.position()))<0.05 \
                          and (ele.gsfTrack().hitPattern().numberOfHits(ROOT.reco.HitPattern.MISSING_INNER_HITS)<=1) \
                          and ele.ecalDriven() 
 
