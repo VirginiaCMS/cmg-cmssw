@@ -10,7 +10,7 @@ X->ZZ->2l2nu Analysis Package
 Instructions for package development.
 ---------------------------------
 
-0. Setup Environment
+1. Setup Environment
 
 ```
 release=CMSSW_7_4_12_patch4
@@ -24,33 +24,33 @@ cd ${release}${tag}/src
 cmsenv
 ```
 
-0. Create empty repository (with the cmssw trick to keep the repository small)
+2. Create empty repository (with the cmssw trick to keep the repository small)
 
 ```
 git cms-init
 ```
 
-0. Add MMHY repository which contains the CMGTools/XZZ2l2nu package, and fetch it
+3. Add MMHY repository which contains the CMGTools/XZZ2l2nu package, and fetch it
 
 ```
 git remote add mmhy https://github.com/MMHY/cmg-cmssw.git
 git fetch mmhy
 ```
 
-0. Configure the sparse checkout (to only checkout needed packages)
+4. Configure the sparse checkout (to only checkout needed packages)
 
 ```
 curl -O https://raw.githubusercontent.com/MMHY/cmg-cmssw/xzz2l2nu_v1/CMGTools/XZZ2l2nu/tools/sparse-checkout
 mv sparse-checkout .git/info/sparse-checkout
 ```
 
-0. Checkout the CMGTools/XZZ2l2nu package, currently the main branch is xzz2l2nu_v1
+5. Checkout the CMGTools/XZZ2l2nu package, currently the main branch is xzz2l2nu_v1
 
 ```
 git checkout -b xzz2l2nu_v1 mmhy/xzz2l2nu_v1
 ```
 
-0. Add your mirror (see https://twiki.cern.ch/twiki/bin/viewauth/CMS/CMGToolsGitMigration#Prerequisites )
+6. Add your mirror (see https://twiki.cern.ch/twiki/bin/viewauth/CMS/CMGToolsGitMigration#Prerequisites )
 
 ```
 git remote add origin https://github.com/<your own github name>/cmg-cmssw.git
@@ -58,19 +58,19 @@ git remote add origin https://github.com/<your own github name>/cmg-cmssw.git
   Don't for get to replace ```<your own github name>``` with your own github user name.
 
 
-0. Push the package CMGTools/XZZ2l2nu in the branch xzz2l2nu_v1 into your own github repository
+7. Push the package CMGTools/XZZ2l2nu in the branch xzz2l2nu_v1 into your own github repository
 
 ```
 git push origin xzz2l2nu_v1
 ```
 
-0. Make a copy of branch xzz2l2nu_v1 for your own developement, you can choose a branch name as you want, such as xzz2l2nu_v1_mydev
+8. Make a copy of branch xzz2l2nu_v1 for your own developement, you can choose a branch name as you want, such as xzz2l2nu_v1_mydev
 
 ```
 git checkout -b xzz2l2nu_v1_mydev
 ```
 
-0. Please frequently commit your changes and push your development branch to your own repository
+9. Please frequently commit your changes and push your development branch to your own repository
 
 ```
 git commit -m 'describe your change here.' -a
@@ -78,7 +78,7 @@ git push origin xzz2l2nu_v1_mydev
 ```
 
 
-0. Once your developement is done, you can update the central branch xzz2l2nu_v1 with a Pull Request. Steps below:
+10. Once your developement is done, you can update the central branch xzz2l2nu_v1 with a Pull Request. Steps below:
 
 * Update the branch xzz2l2nu_v1 in your local repository with others developements on mmhy
 ```
@@ -93,7 +93,7 @@ git merge xzz2l2nu_v1
 git push origin xzz2l2nu_v1_mydev
 ```
 
-* Make a PR from branch xzz2l2nu_v1_mydev in your own respository to branch xzz2l2nu_v1 in MMHY respository to let others cross-check your changes. Once looks good, merge it.
+11. Make a PR from branch xzz2l2nu_v1_mydev in your own respository to branch xzz2l2nu_v1 in MMHY respository to let others cross-check your changes. Once looks good, merge it.
 
   The PR can be created on the webpage of your own repository:
 
