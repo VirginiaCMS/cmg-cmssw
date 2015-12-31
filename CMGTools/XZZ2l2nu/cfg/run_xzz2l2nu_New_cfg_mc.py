@@ -35,10 +35,10 @@ from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
 
 coreSequence = [
     skimAnalyzer,
+    genAna,
     jsonAna,
     triggerAna,
     pileUpAna,
-    genAna,
     vertexAna,
     lepAna,
     metAna,
