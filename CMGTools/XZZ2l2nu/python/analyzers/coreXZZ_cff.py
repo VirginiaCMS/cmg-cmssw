@@ -101,10 +101,8 @@ metAna = cfg.Analyzer(
 leptonicVAna = cfg.Analyzer(
     XZZLeptonicVMaker,
     name='leptonicVMaker',
-    selectMuMuPair = (lambda x: x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1 and x.leg2.pt()>20.0 and abs(x.leg2.eta())<2.4 ),
-    selectElElPair = (lambda x: x.leg1.pt()>115.0 and abs(x.leg1.eta())<2.5 and x.leg2.pt()>35.0 and abs(x.leg2.eta())<2.5 ), 
-    #selectMuMuPair = (lambda x: x.leg1.pt()>20.0 and x.leg2.pt()>20.0 ),
-    #selectElElPair = (lambda x: x.leg1.pt()>20.0 and x.leg2.pt()>20.0 ),
+    selectMuMuPair = (lambda x: (x.leg1.highPtID or x.leg2.highPtID) and ((x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1) or (x.leg2.pt()>50.0 and abs(x.leg2.eta())<2.1))),
+    selectElElPair = (lambda x: x.leg1.pt()>115.0 or x.leg2.pt()>115.0 ),
     selectVBoson = (lambda x: x.pt()>50.0 and x.mass()>60.0 and x.mass()<120.0) 
     )
 
@@ -162,10 +160,10 @@ dumpEvents = cfg.Analyzer(
 ################
 coreSequence = [
     skimAnalyzer,
+    genAna,
     jsonAna,
     triggerAna,
     pileUpAna,
-    genAna,
     vertexAna,
     lepAna,
     metAna,

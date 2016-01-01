@@ -35,15 +35,16 @@ from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
 
 coreSequence = [
     skimAnalyzer,
+    genAna,
     jsonAna,
     triggerAna,
     pileUpAna,
-    genAna,
     vertexAna,
     lepAna,
     metAna,
     leptonicVAna,
     multiStateAna,
+    triggerFlagsAna,
 ]
     
 #sequence = cfg.Sequence(coreSequence)
@@ -60,14 +61,15 @@ if test==1:
     #selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
+    #selectedComponents = [DYJetsToLL_M50_NNLO]
     #selectedComponents = [BulkGravToZZ_narrow_800]
     #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
-        c.splitFactor = len(c.files)
+        #c.files = c.files[0]
+        c.splitFactor =  (len(c.files)/10 if len(c.files)>10 else 1)
         #c.splitFactor = 1
         #c.triggers=triggers_1mu_noniso
         #c.triggers=triggers_1e_noniso
-        #c.files = c.files[0]
 
 ## output histogram
 outputService=[]

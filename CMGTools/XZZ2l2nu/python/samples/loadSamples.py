@@ -23,7 +23,8 @@ DYJetsToLL_M50_HT400to600,
 DYJetsToLL_M50_HT600toInf,
 WW,
 WZ,
-ZZ
+ZZ,
+DYJetsToLL_M50_NNLO,
 ]
 
 
