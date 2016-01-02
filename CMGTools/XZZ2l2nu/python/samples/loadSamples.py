@@ -25,6 +25,9 @@ WW,
 WZ,
 ZZ,
 DYJetsToLL_M50_NNLO,
+WJetsToLNu_MG5NLO,
+TTTo2L2Nu,
+TT,
 ]
 
 
