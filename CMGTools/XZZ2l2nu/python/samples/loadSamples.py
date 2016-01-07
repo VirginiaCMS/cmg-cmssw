@@ -114,12 +114,12 @@ for comp in mcSamples+otherMcSamples:
     comp.puFileData=dataDir+"/pileup_DATA.root"
     comp.efficiency = eff2012
     comp.triggers=triggers_1mu_noniso+triggers_1e_noniso
-    comp.globalTag = "74X_mcRun2_asymptotic_v2"
+    comp.globalTag = "Summer15_25nsV6_MC"
 
 for comp in dataSamples:
     comp.splitFactor = 250
     comp.isMC = False
     comp.isData = True
     comp.json = jsonFile
-    comp.globalTag = "74X_dataRun2_v3"
+    comp.globalTag = "Summer15_25nsV6_DATA"
 
