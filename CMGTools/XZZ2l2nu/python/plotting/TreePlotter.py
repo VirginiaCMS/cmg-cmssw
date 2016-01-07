@@ -19,7 +19,8 @@ class TreePlotter(PlotterBase):
     def setupFromFile(self,filename):
         f=open(filename)
         data=pickle.load(f)
-        weightinv = float(data['events'])
+        #weightinv = float(data['events'])
+        weightinv = float(data['Sum Weights'][1])
         self.addCorrectionFactor(1./weightinv,'flat')
 
             

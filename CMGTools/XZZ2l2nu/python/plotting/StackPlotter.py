@@ -13,14 +13,17 @@ def convertToPoisson(h):
         y=h.GetBinContent(i)
         yLow=0
         yHigh=0
-        if y >0.1:
-            yLow = y-ROOT.Math.chisquared_quantile_c(1-q,2*y)/2.
-            yHigh = ROOT.Math.chisquared_quantile_c(q,2*(y+1))/2.-y
-            graph.SetPoint(i-1,x,y)
-            graph.SetPointEYlow(i-1,yLow)
-            graph.SetPointEYhigh(i-1,yHigh)
-            graph.SetPointEXlow(i-1,0.0)
-            graph.SetPointEXhigh(i-1,0.0)
+        xAxisMin = h.GetXaxis().GetXmin()
+        xAxisMax = h.GetXaxis().GetXmax()
+        if y < 0.1: continue
+        if x<xAxisMin or x>xAxisMax: continue
+        yLow = y-ROOT.Math.chisquared_quantile_c(1-q,2*y)/2.
+        yHigh = ROOT.Math.chisquared_quantile_c(q,2*(y+1))/2.-y
+        graph.SetPoint(i-1,x,y)
+        graph.SetPointEYlow(i-1,yLow)
+        graph.SetPointEYhigh(i-1,yHigh)
+        graph.SetPointEXlow(i-1,0.0)
+        graph.SetPointEXhigh(i-1,0.0)
 
 
     graph.SetMarkerStyle(20)
