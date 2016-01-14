@@ -6,6 +6,9 @@ def convertToPoisson(h):
     graph = ROOT.TGraphAsymmErrors()
     q = (1-0.6827)/2.
 
+    xAxisMin = h.GetXaxis().GetXmin()
+    xAxisMax = h.GetXaxis().GetXmax()
+    igrbin=0
     for i in range(1,h.GetNbinsX()+1):
         x=h.GetXaxis().GetBinCenter(i)
         xLow =h.GetXaxis().GetBinLowEdge(i) 
@@ -13,17 +16,17 @@ def convertToPoisson(h):
         y=h.GetBinContent(i)
         yLow=0
         yHigh=0
-        xAxisMin = h.GetXaxis().GetXmin()
-        xAxisMax = h.GetXaxis().GetXmax()
         if y < 0.1: continue
-        if x<xAxisMin or x>xAxisMax: continue
+        if x<xAxisMin+0.001 or x>xAxisMax: continue
         yLow = y-ROOT.Math.chisquared_quantile_c(1-q,2*y)/2.
         yHigh = ROOT.Math.chisquared_quantile_c(q,2*(y+1))/2.-y
-        graph.SetPoint(i-1,x,y)
-        graph.SetPointEYlow(i-1,yLow)
-        graph.SetPointEYhigh(i-1,yHigh)
-        graph.SetPointEXlow(i-1,0.0)
-        graph.SetPointEXhigh(i-1,0.0)
+        graph.SetPoint(igrbin,x,y)
+        graph.SetPointEYlow(igrbin,yLow)
+        graph.SetPointEYhigh(igrbin,yHigh)
+        graph.SetPointEXlow(igrbin,0.0)
+        graph.SetPointEXhigh(igrbin,0.0)
+        igrbin += 1
+
 
 
     graph.SetMarkerStyle(20)
@@ -219,9 +222,9 @@ class StackPlotter(object):
 	pt.SetFillStyle(0)
 	pt.SetTextFont(42)
 	pt.SetTextSize(0.03)
-	text = pt.AddText(0.01,0.3,"CMS Preliminary")
+	text = pt.AddText(0.15,0.3,"CMS Preliminary")
 #	text = pt.AddText(0.25,0.3,"#sqrt{s} = 7 TeV, L = 5.1 fb^{-1}  #sqrt{s} = 8 TeV, L = 19.7 fb^{-1}")
-	text = pt.AddText(0.55,0.3,"#sqrt{s} = 13 TeV, L = 2.1 fb^{-1}")
+	text = pt.AddText(0.55,0.3,"#sqrt{s} = 13 TeV, L = 2.15 fb^{-1}")
 	pt.Draw()   
         
 
