@@ -77,6 +77,45 @@ lepAna = cfg.Analyzer(
                                      # Choose None to just use the individual object's PU correction
 )
 
+## Jets Analyzer (generic)
+jetAna = cfg.Analyzer(
+    JetAnalyzer, name='jetAnalyzer',
+    jetCol = 'slimmedJets',
+    copyJetsByValue = False,      #Whether or not to copy the input jets or to work with references (should be 'True' if JetAnalyzer is run more than once)
+    genJetCol = 'slimmedGenJets',
+    rho = ('fixedGridRhoFastjetAll','',''),
+    jetPt = 25.,
+    jetEta = 4.7,
+    jetEtaCentral = 2.4,
+    jetLepDR = 0.4,
+    jetLepArbitration = (lambda jet,lepton : lepton), # you can decide which to keep in case of overlaps; e.g. if the jet is b-tagged you might want to keep the jet
+    cleanSelectedLeptons = True, #Whether to clean 'selectedLeptons' after disambiguation. Treat with care (= 'False') if running Jetanalyzer more than once
+    minLepPt = 10,
+    relaxJetId = False,
+    doPuId = False, # Not commissioned in 7.0.X
+    recalibrateJets = True, #'MC', # True, False, 'MC', 'Data'
+    applyL2L3Residual = True, # Switch to 'Data' when they will become available for Data
+    recalibrationType = "AK4PFchs",
+    mcGT     = "Summer15_25nsV6_MC",
+    dataGT   = "Summer15_25nsV6_DATA",
+    jecPath = "${CMSSW_BASE}/src/CMGTools/RootTools/data/jec/",
+    shiftJEC = 0, # set to +1 or -1 to apply +/-1 sigma shift to the nominal jet energies
+    addJECShifts = False, # if true, add  "corr", "corrJECUp", and "corrJECDown" for each jet (requires uncertainties to be available!)
+    smearJets = False,
+    shiftJER = 0, # set to +1 or -1 to get +/-1 sigma shifts  
+    alwaysCleanPhotons = False,
+    cleanGenJetsFromPhoton = False,
+    cleanJetsFromFirstPhoton = False,
+    cleanJetsFromTaus = False,
+    cleanJetsFromIsoTracks = False,
+    doQG = False,
+    do_mc_match = False,
+    collectionPostFix = "",
+    calculateSeparateCorrections = True, # should be True if recalibrateJets is True, otherwise L1s will be inconsistent
+    calculateType1METCorrection  = True,
+    type1METParams = { 'jetPtThreshold':15., 'skipEMfractionThreshold':0.9, 'skipMuons':True },
+    )
+
 metAna = cfg.Analyzer(
     XZZMETAnalyzer, name="metAnalyzer",
     metCollection     = "slimmedMETs",
