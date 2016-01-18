@@ -7,8 +7,6 @@ from CMGTools.XZZ2l2nu.fwlite.Config import printComps
 from CMGTools.XZZ2l2nu.RootTools import *
 from PhysicsTools.HeppyCore.framework.heppy_loop import getHeppyOption
 
-syncChannel="Muon"
-#syncChannel="Electron"
 
 #Load all common analyzers
 from CMGTools.XZZ2l2nu.analyzers.coreXZZ_cff import *
@@ -29,36 +27,8 @@ triggerFlagsAna.triggerBits ={
     "MET120":triggers_metNoMu120_mhtNoMu120
 }
 
-if syncChannel == "Muon":
-    genAna.filter = "ZZ2mu"
-    for comp in mcSamples+otherMcSamples:
-        comp.triggers=triggers_1mu_noniso
-
-if syncChannel == "Electron":
-    genAna.filter = "ZZ2el"
-    for comp in mcSamples+otherMcSamples:
-        comp.triggers=triggers_1e_noniso 
-
-#leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID or x.leg2.highPtID) and ((x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1) or (x.leg2.pt()>50.0 and abs(x.leg2.eta())<2.1)))
-leptonicVAna.selectMuMuPair = (lambda x: (x.leg1.highPtID and x.leg2.highPtID) and ((x.leg1.pt()>50.0 and abs(x.leg1.eta())<2.1) or (x.leg2.pt()>50.0 and abs(x.leg2.eta())<2.1)))
-leptonicVAna.selectElElPair = (lambda x: x.leg1.pt()>115.0 or x.leg2.pt()>115.0 )
-leptonicVAna.selectVBoson = (lambda x: x.pt()>200.0 and x.mass()>70.0 and x.mass()<110.0)
-
 #-------- Analyzer
 from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
-
-vvTreeProducer.globalVariables = [
-         NTupleVariable("nVert",  lambda ev: len(ev.goodVertices), int, help="Number of good vertices"),
-         ]
-vvTreeProducer.globalObjects =  { }
-vvTreeProducer.collections = {
-         "LL"  : NTupleCollection("Zll",LLType,5, help="Z to ll"),
-         "selectedLeptons" : NTupleCollection("lep",leptonType,10, help="selected leptons"),
-         "genLeptons" : NTupleCollection("genLep", genParticleType, 10, help="Generated leptons (e/mu) from W/Z decays"),
-         "genZBosons" : NTupleCollection("genZ", genParticleType, 10, help="Generated V bosons"),
-     }
-
-
 
 #-------- SEQUENCE
 #sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
@@ -66,15 +36,19 @@ vvTreeProducer.collections = {
 coreSequence = [
     skimAnalyzer,
     genAna,
+    jsonAna,
     triggerAna,
+    pileUpAna,
     vertexAna,
     lepAna,
+    metAna,
     leptonicVAna,
-    dumpEvents,
+    multiStateAna,
+    triggerFlagsAna,
 ]
     
 #sequence = cfg.Sequence(coreSequence)
-sequence = cfg.Sequence(coreSequence+[vvTreeProducer])
+sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
  
 
@@ -83,22 +57,20 @@ test = 1
 if test==1:
     # test a single component, using a single thread.
     #selectedComponents = dataSamples
+#    selectedComponents = mcSamples
+    selectedComponents = [DYJetsToLL_M50]
     #selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
+    #selectedComponents = [DYJetsToLL_M50_NNLO]
     #selectedComponents = [BulkGravToZZ_narrow_800]
-    selectedComponents = bulkJetsSamples 
-    # selectedComponents = [BulkGravToZZToZlepZhad_narrow_800] #Mengqing: used to test
-    #if syncChannel=="Muon":
-    #    selectedComponents = [BulkGravToZZToZlepZhad_narrow_2000,BulkGravToZZToZlepZhad_narrow_3500,BulkGravToZZToZlepZhad_narrow_4500]
-    #else:
-        #selectedComponents = [BulkGravToZZToZlepZhad_narrow_1000,BulkGravToZZToZlepZhad_narrow_1200,BulkGravToZZToZlepZhad_narrow_2500]
-    #    selectedComponents = bulkJetsSamples
+    #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
-        c.splitFactor = 1
+        #c.files = c.files[0]
+        c.splitFactor =  (len(c.files)/10 if len(c.files)>10 else 1)
+        #c.splitFactor = 1
         #c.triggers=triggers_1mu_noniso
         #c.triggers=triggers_1e_noniso
-        #c.files = c.files[0]
 
 ## output histogram
 outputService=[]

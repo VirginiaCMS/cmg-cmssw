@@ -64,7 +64,7 @@ mcSamples = signalSamples + backgroundSamples
 
 # other mc samples
 bulkJetsSamples = [
-BulkGravToZZToZlepZhad_narrow_600,
+#BulkGravToZZToZlepZhad_narrow_600, # commented out by Mengqing
 BulkGravToZZToZlepZhad_narrow_800,
 BulkGravToZZToZlepZhad_narrow_1000,
 BulkGravToZZToZlepZhad_narrow_1200,
@@ -77,8 +77,6 @@ BulkGravToZZToZlepZhad_narrow_3000,
 BulkGravToZZToZlepZhad_narrow_3500,
 BulkGravToZZToZlepZhad_narrow_4000,
 BulkGravToZZToZlepZhad_narrow_4500,
-
-
 ]
 
 otherMcSamples = bulkJetsSamples
@@ -86,6 +84,7 @@ otherMcSamples = bulkJetsSamples
 # data
 SingleMuon=[SingleMuon_Run2015D_Promptv4,SingleMuon_Run2015D_05Oct]
 SingleElectron=[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
+SinglePhoton=[SinglePhoton_Run2015D_Promptv4,SinglePhoton_Run2015D_05Oct]# added by Mengqing
 
 for s in SingleMuon:
     s.triggers = triggers_1mu_noniso

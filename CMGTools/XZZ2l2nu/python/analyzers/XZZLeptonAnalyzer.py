@@ -99,6 +99,7 @@ class XZZLeptonAnalyzer( Analyzer ):
         # lepton ID
         for mu in allmuons:
             if (mu.highPtID or mu.trackerHighPtID ):
+#            if (mu.highPtID):
                 self.n_mu_passId += 1
                 if (self.applyMiniIso and mu.miniRelIso<0.2):
                     event.selectedLeptons.append(mu)
