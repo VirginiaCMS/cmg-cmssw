@@ -30,6 +30,10 @@ triggerFlagsAna.triggerBits ={
 
 #-------- Analyzer
 from CMGTools.XZZ2l2nu.analyzers.treeXZZ_cff import *
+leptonicVAna.selectMuMuPair = (lambda x: ((x.leg1.pt()>35 or x.leg2.pt()>35)))
+leptonicVAna.selectElElPair =(lambda x: x.leg1.pt()>50.0 or x.leg2.pt()>50.0 )
+leptonicVAna.selectVBoson = (lambda x: x.mass()>50.0 and x.mass()<180.0)
+multiStateAna.selectPairLLNuNu = (lambda x: x.leg1.mass()>50.0 and x.leg1.mass()<180.0)
 
 #-------- SEQUENCE
 #sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
@@ -55,6 +59,7 @@ coreSequence = [
 ]
     
 #sequence = cfg.Sequence(coreSequence)
+vvTreeProducer.globalVariables.append(NTupleVariable("passHLT",lambda ev: ev.passlepHLT , int))
 sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
  

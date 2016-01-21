@@ -53,24 +53,38 @@ class XZZTrgEff(Analyzer):
             pNames=list(i.pathNames())
             if [pN for pN in pNames if self.eleHLT in pN]:eleob.append(i)
             if [pN for pN in pNames if self.muHLT in pN]:muob.append(i)
+        event.passlepHLT=0 # ABCD in binary, A=1/0:muon_Z/ele_Z B=1/0:pass_HLT/fail_HLT C=1/0:l1_matched/l1_nomatch D=1/0:l2_matched/l2_nomatch
         if abs(Zll.leg1.pdgId())==11:
             self.trgeff.dRelnoHLT.Fill(deltr)
             self.counters.counter('events').inc('events with ele no HLT')
             if eleob:
+                event.passlepHLT+=4
                 self.trgeff.dRelHLT.Fill(deltr)
                 self.counters.counter('events').inc('events pass ele HLT')
-                lmatch=[1 for i in eleob if deltR(Zll.leg1,i)<.3]+[1 for i in eleob if deltR(Zll.leg2,i)<.3]
-                if lmatch:
+                lmatch1=[1 for i in eleob if deltR(Zll.leg1,i)<.3]
+                lmatch2=[1 for i in eleob if deltR(Zll.leg2,i)<.3]
+                if lmatch1:
+                    event.passlepHLT+=2
+                if lmatch2:
+                    event.passlepHLT+=1
+                if lmatch1+lmatch2:
                     self.trgeff.dRelHLTmatch.Fill(deltr)
                     self.counters.counter('events').inc('events pass ele HLT and matching')
         if abs(Zll.leg1.pdgId())==13:
+            event.passlepHLT+=8
             self.trgeff.dRmunoHLT.Fill(deltr)
             self.counters.counter('events').inc('events with mu no HLT')
             if muob:
+                event.passlepHLT+=4
                 self.trgeff.dRmuHLT.Fill(deltr)
                 self.counters.counter('events').inc('events pass mu HLT')
-                lmatch=[1 for i in muob if deltR(Zll.leg1,i)<.3]+[1 for i in muob if deltR(Zll.leg2,i)<.3]
-                if lmatch:
+                lmatch1=[1 for i in muob if deltR(Zll.leg1,i)<.3]
+                lmatch2=[1 for i in muob if deltR(Zll.leg2,i)<.3]
+                if lmatch1:
+                    event.passlepHLT+=2
+                if lmatch2:
+                    event.passlepHLT+=1
+                if lmatch1+lmatch2:
                     self.trgeff.dRmuHLTmatch.Fill(deltr)
                     self.counters.counter('events').inc('events pass mu HLT and matching')
         return True
