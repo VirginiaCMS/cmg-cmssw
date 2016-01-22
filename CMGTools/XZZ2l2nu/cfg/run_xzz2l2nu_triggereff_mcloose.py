@@ -76,11 +76,11 @@ test = 1
 if test==1:
     # test a single component, using a single thread.
     #selectedComponents = [SingleMuon_Run2015D_05Oct]
-    #selectedComponents = mcSamples
+    selectedComponents = mcSamples
     #selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
-    selectedComponents = [BulkGravToZZ_narrow_800]
+    #selectedComponents = [BulkGravToZZ_narrow_800]
     #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
         #c.files = c.files[0]
