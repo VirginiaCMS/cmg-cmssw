@@ -59,7 +59,14 @@ coreSequence = [
 ]
     
 #sequence = cfg.Sequence(coreSequence)
-vvTreeProducer.globalVariables.append(NTupleVariable("passHLT",lambda ev: ev.passlepHLT , int))
+vvTreeProducer.globalVariables.extend([
+NTupleVariable("trigobj1_pt",lambda ev: ev.triggerob1.pt, float),
+NTupleVariable("trigobj1_eta",lambda ev: ev.triggerob1.eta, float),
+NTupleVariable("trigobj1_phi",lambda ev: ev.triggerob1.phi, float),
+NTupleVariable("trigobj2_pt",lambda ev: ev.triggerob2.pt, float),
+NTupleVariable("trigobj2_eta",lambda ev: ev.triggerob2.eta, float),
+NTupleVariable("trigobj2_phi",lambda ev: ev.triggerob2.phi, float),
+])
 sequence = cfg.Sequence(coreSequence+[vvSkimmer,vvTreeProducer])
 
  
@@ -69,11 +76,11 @@ test = 1
 if test==1:
     # test a single component, using a single thread.
     #selectedComponents = [SingleMuon_Run2015D_05Oct]
-    selectedComponents = mcSamples
+    #selectedComponents = mcSamples
     #selectedComponents = [SingleMuon_Run2015D_Promptv4,SingleElectron_Run2015D_Promptv4]
     #[SingleElectron_Run2015D_Promptv4,SingleElectron_Run2015D_05Oct]
     #selectedComponents = [RSGravToZZToZZinv_narrow_800]
-#    selectedComponents = [BulkGravToZZ_narrow_800]
+    selectedComponents = [BulkGravToZZ_narrow_800]
     #selectedComponents = [BulkGravToZZToZlepZhad_narrow_800]
     for c in selectedComponents:
         #c.files = c.files[0]
