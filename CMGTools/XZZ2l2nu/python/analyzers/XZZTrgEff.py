@@ -22,7 +22,7 @@ def deltR(l1,l2):
     return (de**2+dp**2)**.5
 
 class TrgObj(object):
-    def __init__(self, pt=-10, eta=-10, phi=-10):
+    def __init__(self, pt=-100, eta=-100, phi=-100):
         self.pt=pt
         self.eta=eta
         self.phi=phi
@@ -49,13 +49,13 @@ class XZZTrgEff(Analyzer):
         count.register('events pass ele HLT and matching')
     def process(self,event):
         self.readCollections( event.input )
-        Zll = min(event.LL,key = lambda x: abs(x.M()-91.118))
+        Zll = event.LLNuNu[0]['pair'].leg1
         deltr = deltR(Zll.leg1,Zll.leg2)
         names = event.input.object().triggerNames(self.handles['trgresults'].product())
         eleob=[]
         muob=[]
-        event.triggerob1=TrgObj()
-        event.triggerob2=TrgObj()
+        Zll.leg1.triggerob=TrgObj()
+        Zll.leg2.triggerob=TrgObj()
         for i in self.handles['selectedtrg'].product():
             i.unpackPathNames(names)
             pNames=list(i.pathNames())
@@ -71,10 +71,10 @@ class XZZTrgEff(Analyzer):
                 lmatch2=[i for i in eleob if deltR(Zll.leg2,i)<.3]
                 if lmatch1:
                     m1=min(lmatch1,key=lambda x:deltR(Zll.leg1,x))
-                    event.triggerob1=TrgObj(m1.pt(),m1.eta(),m1.phi())
+                    Zll.leg1.triggerob=TrgObj(m1.pt(),m1.eta(),m1.phi())
                 if lmatch2:
                     m2=min(lmatch2,key=lambda x:deltR(Zll.leg2,x))
-                    event.triggerob1=TrgObj(m2.pt(),m2.eta(),m2.phi())
+                    Zll.leg2.triggerob=TrgObj(m2.pt(),m2.eta(),m2.phi())
                 if lmatch1+lmatch2:
                     self.trgeff.dRelHLTmatch.Fill(deltr)
                     self.counters.counter('events').inc('events pass ele HLT and matching')
@@ -88,10 +88,10 @@ class XZZTrgEff(Analyzer):
                 lmatch2=[i for i in muob if deltR(Zll.leg2,i)<.3]
                 if lmatch1:
                     m1=min(lmatch1,key=lambda x:deltR(Zll.leg1,x))
-                    event.triggerob1=TrgObj(m1.pt(),m1.eta(),m1.phi())
+                    Zll.leg1.triggerob=TrgObj(m1.pt(),m1.eta(),m1.phi())
                 if lmatch2:
                     m2=min(lmatch2,key=lambda x:deltR(Zll.leg2,x))
-                    event.triggerob1=TrgObj(m2.pt(),m2.eta(),m2.phi())
+                    Zll.leg2.triggerob=TrgObj(m2.pt(),m2.eta(),m2.phi())
                 if lmatch1+lmatch2:
                     self.trgeff.dRmuHLTmatch.Fill(deltr)
                     self.counters.counter('events').inc('events pass mu HLT and matching')
