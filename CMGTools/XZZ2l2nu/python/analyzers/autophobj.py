@@ -111,6 +111,9 @@ leptonTypeExtra = NTupleObjectType("leptonExtra", baseObjectTypes = [ leptonType
 #    new version used by EGM in Spring15, 7_4_14:
     NTupleVariable("eInvMinusPInv_tkMom", lambda x: ((1.0/x.ecalEnergy()) - (1.0 / x.trackMomentumAtVtx().R() ) if (x.ecalEnergy()>0. and x.trackMomentumAtVtx().R()>0.) else 9e9) if abs(x.pdgId())==11 else 0, help="Electron 1/E - 1/p_tk_vtx  (without absolute value!)"),
     NTupleVariable("etaSc", lambda x : x.superCluster().eta() if abs(x.pdgId())==11 else -100, help="Electron supercluster pseudorapidity"),
+    NTupleVariable("trigerob_pt", lambda x : x.triggerob.pt if hasattr(x,'triggerob') else -100, help="Electron matched HLT object pt"),
+    NTupleVariable("trigerob_eta", lambda x : x.triggerob.eta if hasattr(x,'triggerob') else -100, help="Electron matched HLT object eta"),
+    NTupleVariable("trigerob_phi", lambda x : x.triggerob.phi if hasattr(x,'triggerob') else -100, help="Electron matched HLT object phi"),
 ])
  
 
