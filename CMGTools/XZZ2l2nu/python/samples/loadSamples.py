@@ -28,6 +28,16 @@ DYJetsToLL_M50,
 WJetsToLNu,
 TT_pow,
 TTLep_pow,
+ZZTo2L2Nu,
+ZZTo4L,
+ZZTo2L2Q,
+WWTo2L2Nu,
+WWToLNuQQ,
+WZTo1L1Nu2Q,
+WZTo2L2Q,
+WZTo3LNu,
+TTZToLLNuNu,
+TTWJetsToLNu,
 ]
 
 
