@@ -1,0 +1,9 @@
+Method to get pileup input file:
+
+for data, run this command in CMSSW:
+pileupCalc.py -i /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_v2.txt --inputLumiJSON  /afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions15/13TeV/PileUp/pileup_JSON_11-19-2015.txt --calcMode true --minBiasXsec 69400 --maxPileupBin 52 --numPileupBins 52  MyDataPileupHistogram.root
+
+and a brief python script for making the MC pileup input file is provided here with filename: mcpileup.py
+
+More information can be found here: 
+https://twiki.cern.ch/twiki/bin/view/Sandbox/Xzz2l2nuStudy
