@@ -2,7 +2,7 @@ import ROOT
 import math, os
 from TreePlotter import TreePlotter
 
-def convertToPoisson(h):
+def convertToPoisson(h,blinding=False,blindingCut=100):
     graph = ROOT.TGraphAsymmErrors()
     q = (1-0.6827)/2.
 
@@ -17,6 +17,7 @@ def convertToPoisson(h):
         yLow=0
         yHigh=0
         if y < 0.1: continue
+        if blinding and x>blindingCut: continue
         if x<xAxisMin+0.001 or x>xAxisMax: continue
         yLow = y-ROOT.Math.chisquared_quantile_c(1-q,2*y)/2.
         yHigh = ROOT.Math.chisquared_quantile_c(q,2*(y+1))/2.-y
@@ -37,6 +38,37 @@ def convertToPoisson(h):
 
     return graph    
 
+def GetRatioHist(h1, hstack,blinding=False,blindingCut=100):
+    hratio = h1.Clone("hRatio")
+    h2 = hstack.GetHistogram()
+    h2.SetName('hstackmerge')
+    for hist in hstack.GetHists():
+        h2.Add(hist)
+
+    for i in xrange(h1.GetXaxis().GetNbins()):
+        N1 = h1.GetBinContent(i)
+        N2 = h2.GetBinContent(i)
+        E1 = h1.GetBinError(i)
+        E2 = h2.GetBinError(i)
+        RR = N1/N2 if N2>0 else 0
+        EE = 0 if N2<=0 else math.sqrt(N2*N2*E1*E1+N1*N1*E2*E2)/N2/N2
+
+        hratio.SetBinContent(i, RR)
+        hratio.SetBinError(i, EE)
+        if blinding and h1.GetBinCenter(i)>blindingCut: 
+            hratio.SetBinContent(i, 0)
+            hratio.SetBinError(i, 0)
+
+    hratio.SetMarkerStyle(20)
+    hratio.SetLineWidth(1)
+    hratio.SetMarkerSize(1.)
+    hratio.SetMarkerColor(ROOT.kBlack)
+    hratio.GetXaxis().SetTitle('')
+    hratio.GetYaxis().SetTitle('Data/MC')
+    hratio.GetYaxis().SetRangeUser(0.0,2.0)
+
+    return hratio
+
 class StackPlotter(object):
     def __init__(self,defaultCut="1"):
         self.plotters = []
@@ -45,6 +77,7 @@ class StackPlotter(object):
         self.names    = []
         self.log=False
         self.defaultCut=defaultCut
+        self.doRatioPlot=False
 
     def setLog(self,doLog):
         self.log=doLog
@@ -54,27 +87,27 @@ class StackPlotter(object):
         self.labels.append(label)
         self.names.append(name)
 
-    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = "", output = 'out.eps', separateSignal=False):
-        canvas = ROOT.TCanvas("canvas","")
+    def doRatio(self,doRatio):
+        self.doRatioPlot = doRatio
+
+    def drawStack(self,var,cut,lumi,bins,mini,maxi,titlex = "", units = "", output = 'out.eps', separateSignal=False, blinding=False, blindingCut=100.0):
+
+        c1 = ROOT.TCanvas("c1", "c1", 600, 750); c1.Draw()
+        c1.SetWindowSize(600 + (600 - c1.GetWw()), (750 + (750 - c1.GetWh())));
+        p1 = ROOT.TPad("pad1","pad1",0,0.2,1,0.99);
+        p1.SetBottomMargin(0.15);
+        p1.Draw();
+        p2 = ROOT.TPad("pad2","pad2",0,0,1,0.2);
+        p2.SetTopMargin(0.03);
+        p2.SetBottomMargin(0.3);
+        p2.SetFillStyle(0);
+        p2.Draw();
+
         ROOT.gStyle.SetOptStat(0)
         ROOT.gStyle.SetOptTitle(0)
-        canvas.Range(-68.75,-7.5,856.25,42.5)
-        canvas.SetFillColor(0)
-        canvas.SetBorderMode(0)
-        canvas.SetBorderSize(2)
-        canvas.SetTickx(1)
-        canvas.SetTicky(1)
-        canvas.SetLeftMargin(0.15)
-        canvas.SetRightMargin(0.05)
-        canvas.SetTopMargin(0.05)
-        canvas.SetBottomMargin(0.15)
-        canvas.SetFrameFillStyle(0)
-        canvas.SetFrameBorderMode(0)
-        canvas.SetFrameFillStyle(0)
-        canvas.SetFrameBorderMode(0)
-
-
-        canvas.cd()
+        
+        p1.cd()
+            
         hists=[]
         stack = ROOT.THStack("stack","")
         
@@ -119,8 +152,13 @@ class StackPlotter(object):
                 hist = plotter.drawTH1(var,cutL,"1",bins,mini,maxi,titlex,units)
                 hist.SetName(hist.GetName()+label)
                 hists.append(hist)
+                hist.SetMarkerStyle(20)
+                hist.SetLineWidth(1)
+                hist.SetMarkerSize(1.)
+                hist.SetMarkerColor(ROOT.kBlack)
+                hist.SetBinErrorOption(1)
                 dataH=hist
-                dataG=convertToPoisson(hist)
+                dataG=convertToPoisson(hist,blinding,blindingCut)
                 dataG.SetLineWidth(1)
                 print label+" : %f\n" % hist.Integral()
                 
@@ -133,9 +171,9 @@ class StackPlotter(object):
             datamax = stack.GetMaximum()
 
         if not self.log:
-            frame = canvas.DrawFrame(mini,0.0,maxi,max(stack.GetMaximum(),datamax)*1.20)
+            frame = p1.DrawFrame(mini,0.0,maxi,max(stack.GetMaximum(),datamax)*1.20)
         else:    
-            frame = canvas.DrawFrame(mini,0.1,maxi,max(stack.GetMaximum(),datamax)*100)
+            frame = p1.DrawFrame(mini,0.1,maxi,max(stack.GetMaximum(),datamax)*100)
 
         frame.GetXaxis().SetLabelFont(42)
         frame.GetXaxis().SetLabelOffset(0.007)
@@ -162,6 +200,7 @@ class StackPlotter(object):
         else:    
             frame.GetXaxis().SetTitle(titlex)
             frame.GetYaxis().SetTitle("Events")
+
 
         frame.Draw()
         stack.Draw("A,HIST,SAME")
@@ -196,9 +235,10 @@ class StackPlotter(object):
 
         legend.Draw()
         if self.log:
-            canvas.SetLogy()
-        canvas.SetLeftMargin(canvas.GetLeftMargin()*1.15)
-        canvas.Update()
+            p1.SetLogy()
+        p1.SetLeftMargin(p1.GetLeftMargin()*1.15)
+        p1.Update()
+        c1.Update()
 
 
 
@@ -232,15 +272,23 @@ class StackPlotter(object):
 #        latex1.SetTextSize(0.037)
 #        latex1.Draw()
 
-        plot={'canvas':canvas,'stack':stack,'legend':legend,'data':dataH,'dataG':dataG,'latex1':pt}
+        if self.doRatioPlot:
+            hratio = GetRatioHist(dataH,stack,blinding, blindingCut)
+            p2.cd()
+            hratio.Draw('P')
+            #line1 = ROOT.TLine()
+            #line1.DrawLineNDC(0,0.1,1,0.1)
+
+        plot={'canvas':c1,'stack':stack,'legend':legend,'data':dataH,'dataG':dataG,'latex1':pt}
         if separateSignal and len(signalHs)>0:
             for (sigH,sigLab) in reversed(zip(signalHs,signalLabels)):
                 plot['signal_'+sigLab] = sigH
 
-        canvas.RedrawAxis()
-        canvas.Update()
+        p1.RedrawAxis()
+        p1.Update()
+        c1.Update()
 
-        canvas.Print(output)
+        c1.Print(output)
         os.system('epstopdf '+output)
 
         return plot
