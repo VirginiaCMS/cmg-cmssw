@@ -74,7 +74,7 @@ mcSamples = signalSamples + backgroundSamples
 
 # other mc samples
 bulkJetsSamples = [
-#BulkGravToZZToZlepZhad_narrow_600, # commented out by Mengqing
+BulkGravToZZToZlepZhad_narrow_600,
 BulkGravToZZToZlepZhad_narrow_800,
 BulkGravToZZToZlepZhad_narrow_1000,
 BulkGravToZZToZlepZhad_narrow_1200,
