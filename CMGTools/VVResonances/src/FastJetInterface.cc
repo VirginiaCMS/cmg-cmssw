@@ -261,10 +261,10 @@ std::vector<double> FastJetInterface::nSubJettiness(unsigned int i ,int NMAX,uns
   enum MeasureDefinition_t {
     NormalizedMeasure=0,       // (beta,R0) 
     UnnormalizedMeasure,       // (beta) 
-    GeometricMeasure,          // (beta) 
+    GeometricMeasure,  // (beta) 
     NormalizedCutoffMeasure,   // (beta,R0,Rcutoff) 
     UnnormalizedCutoffMeasure, // (beta,Rcutoff) 
-    GeometricCutoffMeasure,    // (beta,Rcutoff) 
+    //GeometricCutoffMeasure,    // (beta,Rcutoff) 
     N_MEASURE_DEFINITIONS
   };
 
@@ -290,10 +290,10 @@ std::vector<double> FastJetInterface::nSubJettiness(unsigned int i ,int NMAX,uns
   
   fastjet::contrib::NormalizedMeasure          normalizedMeasure        (beta,R0);
   fastjet::contrib::UnnormalizedMeasure        unnormalizedMeasure      (beta);
-  fastjet::contrib::GeometricMeasure           geometricMeasure         (beta);
+  fastjet::contrib::OriginalGeometricMeasure           geometricMeasure         (beta);
   fastjet::contrib::NormalizedCutoffMeasure    normalizedCutoffMeasure  (beta,R0,Rcutoff);
   fastjet::contrib::UnnormalizedCutoffMeasure  unnormalizedCutoffMeasure(beta,Rcutoff);
-  fastjet::contrib::GeometricCutoffMeasure     geometricCutoffMeasure   (beta,Rcutoff);
+  //fastjet::contrib::GeometricCutoffMeasure     geometricCutoffMeasure   (beta,Rcutoff);
 
   fastjet::contrib::MeasureDefinition const * measureDef = 0;
   switch ( measureDefinition ) {
@@ -301,7 +301,7 @@ std::vector<double> FastJetInterface::nSubJettiness(unsigned int i ,int NMAX,uns
   case GeometricMeasure    : measureDef = &geometricMeasure; break;
   case NormalizedCutoffMeasure : measureDef = &normalizedCutoffMeasure; break;
   case UnnormalizedCutoffMeasure : measureDef = &unnormalizedCutoffMeasure; break;
-  case GeometricCutoffMeasure : measureDef = &geometricCutoffMeasure; break;
+  //case GeometricCutoffMeasure : measureDef = &geometricCutoffMeasure; break;
   case NormalizedMeasure : default : measureDef = &normalizedMeasure; break;
   } 
 
