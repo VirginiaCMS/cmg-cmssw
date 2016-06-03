@@ -34,8 +34,17 @@ for dir in dirs:
     logName  = '/'.join([dir, 'log.txt'])
     if not os.path.isfile( logName ):
         print dir, ': log.txt does not exist'
+        #is_baddir=False
+        for subdir in os.listdir(dir): 
+            if 'LSFJOB_' in subdir: 
+                print dir,': log.txt does not exist, and job has finished.'
+        #        badDirs.append(dir)
+        #        is_baddir=True
+        #if is_baddir:
+        #    continue
         badDirs.append(dir)
         continue
+
     logFile = open(logName)
     nEvents = -1
     for line in logFile:
@@ -63,5 +72,11 @@ if options.batch is not None:
         cmds = ' '.join( cmd )
         print cmds
         os.system( cmds )
+        # remove old job logs
+        if not ( 'resub' in os.listdir('.') ):
+            os.mkdir('resub')
+        for subdir in os.listdir('.'):
+            if 'LSFJOB_' in subdir:
+                os.rename(subdir,'resub/'+subdir)
         os.chdir( oldPwd )
         
